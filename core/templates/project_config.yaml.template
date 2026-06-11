@@ -1,0 +1,33 @@
+project: {{PROJECT_SLUG}}
+description: "{{PROJECT_DESCRIPTION}}"
+
+model:
+  required: "opus"
+  forbidden: ["sonnet", "haiku"]
+  rule: "ВСЕ субагенты ОБЯЗАНЫ использовать model: opus. Без исключений."
+
+paths:
+  docs: "${{ENV_DOCS}}"
+  code: "${{ENV_CODE}}"
+
+git:
+  code_repo: "${{ENV_CODE}}"
+  remote: "origin"
+  branch: "main"
+  auto_push: true
+
+commands:
+  build: '{{BUILD_COMMAND}}'
+  test: '{{TEST_COMMAND}}'
+  lint: '{{LINT_COMMAND}}'
+  typecheck: '{{TYPECHECK_COMMAND}}'
+  dev_server: '{{DEV_SERVER_COMMAND}}'
+
+infrastructure:
+  check_command: '{{INFRA_CHECK_COMMAND}}'
+  start_command: '{{INFRA_START_COMMAND}}'
+
+aria:
+  version: "3.3"
+  upstream: "https://github.com/Yura1980Yura/ARIA"
+  adapter: "{{ADAPTER_NAME}}"

@@ -1,0 +1,28 @@
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Temporary
+*.tmp
+
+# Local workspace junction (Obsidian/Yandex Disk) — для форков
+project-docs/
+
+# Yandex.Disk / Obsidian / облачные sync-конфликты
+* (копия*)*
+*.pre-migration-backup
+.~lock.*
+~$*
+nul-
+nul
+
+# Личная рабочая память (не часть ARIA upstream публичной)
+backlog/
+arhive/
+tests/

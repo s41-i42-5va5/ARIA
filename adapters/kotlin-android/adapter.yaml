@@ -1,0 +1,77 @@
+# ARIA Adapter: Kotlin + Android
+# Источник: обкатан в форках
+
+name: kotlin-android
+description: "Kotlin Android-приложение. Jetpack Compose, Hilt DI, Room DB. Hardware integration."
+source_project: форки
+version: "3.1"
+
+variables:
+  ENV_DOCS: "{{ENV_DOCS}}"
+  ENV_CODE: "{{ENV_CODE}}"
+
+stack:
+  language: "Kotlin 2.0+"
+  ui: "Jetpack Compose"
+  di: "Hilt"
+  database: "Room"
+  async: "Kotlin Coroutines + Flow"
+  testing: "JUnit 5, MockK, Turbine"
+  build: "Gradle KTS, AGP 8.7+"
+
+infrastructure:
+  docker: false
+  services: []
+  check_command: ""
+  start_command: ""
+
+commands:
+  build: 'cd "${{ENV_CODE}}" && ./gradlew assembleDebug'
+  test: 'cd "${{ENV_CODE}}" && ./gradlew test'
+  lint: 'cd "${{ENV_CODE}}" && ./gradlew lint'
+  install: 'cd "${{ENV_CODE}}" && ./gradlew installDebug'
+  instrumented: 'cd "${{ENV_CODE}}" && ./gradlew connectedAndroidTest'
+
+# MCP-серверы: для Android-проектов MCP обычно не требуются (adb через Bash).
+# Оставлено пустым по умолчанию. /aria-init пропустит шаг генерации .mcp.json при пустой секции.
+mcp_servers: {}
+
+commit_format:
+  - "[GNSS] описание — GNSS/GPS модуль"
+  - "[NAV] описание — Навигация, треки"
+  - "[STEER] описание — AutoSteer"
+  - "[SECTION] описание — Контроль секций"
+  - "[MAP] описание — Карта"
+  - "[UI] описание — Jetpack Compose UI"
+  - "[HW] описание — Hardware абстракции"
+  - "[DB] описание — Room DB"
+  - "[NET] описание — NTRIP, сеть"
+  - "[CORE] описание — Ядро, DI"
+  - "[TESTS] описание — Тесты"
+  - "[INFRA] описание — Gradle, CI/CD"
+
+code_dirs: "app/ core/ hardware/ navigation/ network/ gradle/ build.gradle.kts settings.gradle.kts"
+
+antipatterns:
+  - pattern: '!! (force unwrap)'
+    reason: "NullPointerException в production"
+  - pattern: "@Suppress(\"UNCHECKED_CAST\")"
+    reason: "Прячет несовместимость типов"
+  - pattern: "Thread.sleep() в тестах"
+    reason: "Нестабильные тесты"
+  - pattern: "GlobalScope.launch"
+    reason: "Утечки корутин, нет lifecycle"
+  - pattern: "catch (e: Exception) { }"
+    reason: "Глотает ошибку"
+
+# Уникальные расширения:
+extensions:
+  - hw_diag: "Диагностика hardware (GNSS, мотор, serial)"
+  - safety_review: "Safety-ревью: watchdog, emergency stop, GPS loss handling"
+  - field_test: "Полевые тесты на реальном устройстве"
+
+# Домен-специфичные ревью
+review:
+  reviewer_4:
+    name: "СОВМЕСТИМОСТЬ"
+    description: "Разные GNSS-приёмники, разные моторы, разные Android-устройства, разные трактора"

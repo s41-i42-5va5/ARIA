@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# ARIA Adapter: kotlin-android — pre-commit hook
+# SOFT warnings для форка (не блокирует)
+# Устанавливается через /aria-sync или scripts/hooks/install.sh
+
+set -e
+
+YELLOW='\033[0;33m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+warn() { echo -e "${YELLOW}[fork pre-commit WARN]${NC} $1" >&2; }
+ok()   { echo -e "${GREEN}[fork pre-commit OK]${NC} $1"; }
+
+CHANGED=$(git diff --cached --name-only --diff-filter=ACMR)
+
+if [ -z "$CHANGED" ]; then
+    exit 0
+fi
+
+# 1. STACK.md изменён без CHANGELOG
+if echo "$CHANGED" | grep -qE '^(project-docs/)?docs/STACK\.md$'; then
+    if ! echo "$CHANGED" | grep -qE '^(project-docs/)?CHANGELOG\.md$'; then
+        warn "STACK.md изменён, но CHANGELOG.md не тронут."
+        warn "Рекомендация: добавить запись о изменении стека в CHANGELOG."
+    fi
+fi
+
+# 2. SPEC.md изменён без ADR
+if echo "$CHANGED" | grep -qE '^(project-docs/)?docs/SPEC\.md$'; then
+    if ! echo "$CHANGED" | grep -qE '^(project-docs/)?docs/ADR/ADR-'; then
+        warn "SPEC.md изменён, но нет нового или обновлённого ADR."
+        warn "Рекомендация: /adr-new \"тема\" — задокументировать архитектурное решение."
+    fi
+fi
+
+# 3. .claude/commands/ изменены без SYS_CHANGELOG
+if echo "$CHANGED" | grep -qE '^\.claude/commands/'; then
+    if ! echo "$CHANGED" | grep -qE 'SYS_CHANGELOG\.md$'; then
+        warn "Команды .claude/commands/ изменены, но SYS_CHANGELOG не обновлён."
+        warn "Рекомендация: добавить запись о изменении системы разработки."
+    fi
+fi
+
+# 4. Gradle libs.versions.toml изменён без STACK.md update
+if echo "$CHANGED" | grep -qE 'libs\.versions\.toml$'; then
+    if echo "$CHANGED" | grep -qE '(категория|новая библиотека)'; then
+        warn "libs.versions.toml изменён. Если добавлена новая КАТЕГОРИЯ — обнови STACK.md."
+    fi
+fi
+
+# 5. Two-Phase Commit check
+CODE_FILES=$(echo "$CHANGED" | grep -vE '^project-docs/' || true)
+DOCS_FILES=$(echo "$CHANGED" | grep -E '^project-docs/' || true)
+
+if [ -n "$CODE_FILES" ] && [ -n "$DOCS_FILES" ]; then
+    warn "КОД и DOCS в одном коммите! Two-Phase Commit нарушен."
+    warn "Рекомендация: unstage project-docs/ и закоммитить код отдельно."
+fi
+
+ok "Fork pre-commit (kotlin-android) — soft checks завершены"
+exit 0

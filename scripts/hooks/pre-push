@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# ARIA upstream pre-push hook
+# Финальная валидация перед push
+
+set -e
+
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+error() { echo -e "${RED}[pre-push ERROR]${NC} $1" >&2; }
+warn()  { echo -e "${YELLOW}[pre-push WARN]${NC} $1" >&2; }
+ok()    { echo -e "${GREEN}[pre-push OK]${NC} $1"; }
+
+REMOTE="$1"
+URL="$2"
+
+# Только для ARIA upstream
+if ! echo "$URL" | grep -qE 'Yura1980Yura/ARIA'; then
+    ok "Push не в ARIA upstream (remote: $URL) — пропускаю"
+    exit 0
+fi
+
+# Читать refs из stdin
+while read -r LOCAL_REF LOCAL_SHA REMOTE_REF REMOTE_SHA; do
+    if [ "$LOCAL_SHA" = "0000000000000000000000000000000000000000" ]; then
+        continue
+    fi
+
+    # Проверить что CHANGELOG.md был обновлён в push range
+    if [ "$REMOTE_SHA" = "0000000000000000000000000000000000000000" ]; then
+        RANGE="$LOCAL_SHA"
+    else
+        RANGE="$REMOTE_SHA..$LOCAL_SHA"
+    fi
+
+    PUSH_FILES=$(git diff --name-only "$RANGE" 2>/dev/null || echo "")
+
+    if [ -z "$PUSH_FILES" ]; then
+        continue
+    fi
+
+    # Затронуты критичные части?
+    CRITICAL=$(echo "$PUSH_FILES" | grep -E '^(core/|adapters/|docs/policies/|docs/ARIA_GUIDE\.md|scripts/hooks/)' || true)
+
+    if [ -n "$CRITICAL" ]; then
+        # CHANGELOG был обновлён?
+        CHANGELOG_UPDATED=$(echo "$PUSH_FILES" | grep -E '^CHANGELOG\.md$' || true)
+
+        if [ -z "$CHANGELOG_UPDATED" ]; then
+            error "Push содержит изменения в критичных частях ARIA, но CHANGELOG.md не обновлён в этом push range:"
+            echo "$CRITICAL" | sed 's/^/  - /' >&2
+            error "См. docs/policies/CHANGELOG_POLICY.md"
+            exit 1
+        fi
+    fi
+done
+
+ok "Pre-push валидация прошла"
+exit 0

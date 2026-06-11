@@ -1,0 +1,90 @@
+# ARIA Adapter: Python + FastAPI
+# Источник: обкатан в форках
+
+name: python-fastapi
+description: "Python backend (FastAPI) + React frontend. Docker инфраструктура."
+source_project: форки
+version: "3.0"
+
+variables:
+  ENV_DOCS: "{{ENV_DOCS}}"
+  ENV_CODE: "{{ENV_CODE}}"
+
+stack:
+  language: "Python 3.12+"
+  backend: "FastAPI, SQLAlchemy 2.0, Pydantic v2"
+  frontend: "React 18+, TypeScript, React Flow 11+, Zustand, Shadcn/ui"
+  database: "PostgreSQL 16, Redis 7"
+  testing: "pytest, MCP Playwright (E2E)"
+
+infrastructure:
+  docker: true
+  services: ["postgres", "redis"]
+  check_command: 'docker compose -f "${{ENV_CODE}}/docker-compose.yml" ps --format "table {{.Name}}\t{{.Status}}"'
+  start_command: 'cd "${{ENV_CODE}}" && docker compose up -d postgres redis'
+
+commands:
+  build: 'cd "${{ENV_CODE}}" && pip install -e backend/'
+  test: 'cd "${{ENV_CODE}}" && python -m pytest backend/tests/ -v'
+  lint: 'cd "${{ENV_CODE}}" && python -m ruff check backend/'
+  typecheck: 'cd "${{ENV_CODE}}" && python -m mypy backend/{{PROJECT_SLUG}}/'
+  dev_server: 'cd "${{ENV_CODE}}/backend" && uvicorn {{PROJECT_SLUG}}.main:app --reload --port 8000'
+
+# MCP-серверы для project-scoped .mcp.json (генерируется /aria-init)
+mcp_servers:
+  playwright:
+    command: "npx"
+    args: ["-y", "@anthropic/mcp-playwright"]
+    env: {}
+    reason: "E2E тестирование через браузер (обязательно для /review ревьюера 4 E2E Integration)"
+    required: false
+  postgres:
+    command: "npx"
+    args: ["-y", "@anthropic/mcp-postgres"]
+    env:
+      DATABASE_URL: "${DATABASE_URL}"
+    reason: "Прямой доступ к БД для дебага и аналитики"
+    required: false
+  fetch:
+    command: "npx"
+    args: ["-y", "@anthropic/mcp-fetch@latest"]
+    env: {}
+    reason: "Запасной канал для fetch когда WebFetch блокируется"
+    required: false
+  context7:
+    command: "npx"
+    args: ["-y", "@upstash/context7-mcp@latest"]
+    env: {}
+    reason: "Актуальная документация библиотек (Research-субагент /spec ШАГ 2)"
+    required: false
+
+commit_format:
+  - "[SDK] описание — Plugin SDK"
+  - "[ENGINE] описание — Execution engine"
+  - "[API] описание — FastAPI endpoints"
+  - "[DB] описание — Database, migrations"
+  - "[FRONTEND] описание — React application"
+  - "[NODES] описание — Built-in nodes"
+  - "[INFRA] описание — Docker, CI/CD"
+
+code_dirs: "backend/ frontend/ docker-compose.yml seeds/ tests/ .gitignore"
+
+antipatterns:
+  - pattern: "# type: ignore"
+    reason: "Прячет несовместимость типов"
+  - pattern: "# noqa"
+    reason: "Прячет ошибку линтера"
+  - pattern: "try: ... except: pass"
+    reason: "Глотает ошибку"
+  - pattern: "Any для обхода типов"
+    reason: "Потеря типизации"
+  - pattern: "**kwargs чтобы не ломать вызовы"
+    reason: "Размывает контракт"
+  - pattern: "useEffect с [nodes, edges]"
+    reason: "Перерегистрация на каждый рендер"
+
+# Уникальные расширения:
+extensions:
+  - e2e_gate: "E2E Gate — полная регрессия через MCP Playwright (MCP browser)"
+  - progressive_testing: "Трёхэтапное тестирование: модуль → QG → E2E verify"
+  - attack_review: "Атакер в /spec — adversarial проверка спецификации"

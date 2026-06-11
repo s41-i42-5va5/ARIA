@@ -1,0 +1,26 @@
+# {{PROJECT_NAME}} ARIA — Единая конфигурация путей
+# Все команды и скрипты читают пути ОТСЮДА.
+# При переносе папок — меняй ТОЛЬКО этот файл.
+
+base_docs: "${{ENV_DOCS}}"
+base_code: "${{ENV_CODE}}"
+
+# Документация
+state: "${{ENV_DOCS}}/STATE.yaml"
+global_spec: "${{ENV_DOCS}}/docs/SPEC.md"
+references: "${{ENV_DOCS}}/docs/REFERENCES.md"
+design_guide: "${{ENV_DOCS}}/docs/DESIGN_GUIDE.md"
+changelog: "${{ENV_DOCS}}/CHANGELOG.md"
+sys_changelog: "${{ENV_DOCS}}/SYS_CHANGELOG.md"
+roadmap: "${{ENV_DOCS}}/ROADMAP.md"
+
+# Спецификации и архитектура
+specs: "${{ENV_DOCS}}/docs/spec"
+adr: "${{ENV_DOCS}}/docs/ADR"
+research: "${{ENV_DOCS}}/docs/research"
+
+# E2E тестирование
+e2e: "${{ENV_DOCS}}/tests/e2e"
+
+# Код (проект-специфичные пути)
+{{CODE_PATHS}}

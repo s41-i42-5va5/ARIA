@@ -1,0 +1,55 @@
+# ARIA Adapter: C# + Avalonia
+# Источник: обкатан в форках
+
+name: csharp-avalonia
+description: "C# .NET кроссплатформенное приложение. Avalonia UI, ReactiveUI (MVVM), NUnit."
+source_project: форки
+version: "3.0"
+
+variables:
+  ENV_DOCS: "{{ENV_DOCS}}"
+  ENV_CODE: "{{ENV_CODE}}"
+
+stack:
+  language: "C# 14, .NET 10"
+  ui: "Avalonia 11.3"
+  pattern: "MVVM (ReactiveUI)"
+  testing: "NUnit 4.3, NSubstitute"
+  platforms: "Windows, macOS, Linux, iOS, Android"
+
+infrastructure:
+  docker: false
+  services: []
+  check_command: ""
+  start_command: ""
+
+commands:
+  build: 'cd "${{ENV_CODE}}" && dotnet build {{PROJECT_SLUG}}.sln'
+  test: 'cd "${{ENV_CODE}}" && dotnet test Tests/'
+  run: 'cd "${{ENV_CODE}}" && dotnet run --project Platforms/{{PROJECT_SLUG}}.Desktop'
+
+# MCP-серверы: для Avalonia-проектов (desktop + mobile) MCP опциональны.
+# Можно добавить Playwright для MAUI-Blazor вариантов, но по умолчанию пусто.
+mcp_servers: {}
+
+commit_format:
+  - "[MODELS] описание — Models проект"
+  - "[SERVICES] описание — Services проект"
+  - "[VIEWMODELS] описание — ViewModels проект"
+  - "[VIEWS] описание — Views / UI"
+  - "[DESKTOP] описание — Desktop platform"
+  - "[IOS] описание — iOS platform"
+  - "[ANDROID] описание — Android platform"
+  - "[TESTS] описание — Тесты"
+  - "[DOCS] описание — Документация"
+  - "[INFRA] описание — CI/CD, build"
+
+code_dirs: "Shared/ Platforms/ Tests/"
+
+antipatterns:
+  - pattern: "#pragma warning disable"
+    reason: "Прячет ошибку компилятора"
+  - pattern: "catch (Exception) { }"
+    reason: "Глотает ошибку"
+  - pattern: "object / dynamic для обхода типов"
+    reason: "Потеря типизации"

@@ -1,0 +1,467 @@
+project: aria
+updated: "2026-04-15"
+
+current:
+  phase: 1
+  task: null
+  description: "Phase 1 v2.4 ПОЛНОСТЬЮ ЗАВЕРШЕНА. 17/17 задач done. ARIA self-contained в W4_ARIA. Desktop/Projects/ARIA удалён. Форки очищены от ARIA-реликтов."
+
+blockers: []
+
+# === Phase 1: Стабилизация и автоматизация ===
+# Версия спеки: 2.4 (правило разделения репо + Task 16 очистка форков от халатности 6 апреля)
+phase_1:
+  title: "Стабилизация и автоматизация"
+  spec: "docs/spec/phase-1-stabilization.md"
+  version: 2.4
+
+  tasks:
+    - name: living-doc-rule
+      priority: 1
+      status: done
+      depends_on: []
+      description: "Правила живого документа + контракты чтения SYS_CHANGELOG, правило редактирования policies через AI, признание pre-commit читателем ROADMAP (закрытие протечек v2.2)"
+      scope: "[DOCS] + [POLICY]"
+      spec: "docs/spec/phase-1-stabilization.md#task-11"
+      files:
+        - core/CLAUDE.md.template
+        - docs/policies/DOCUMENTATION_LIFECYCLE.md
+        - core/commands/aria-docs-audit.md
+        - core/commands/aria-sync.md
+        - docs/research/living-docs-audit.md
+      tests: []
+      acceptance:
+        - "Оба правила задекларированы в CLAUDE.md.template"
+        - "DOCUMENTATION_LIFECYCLE.md явно запрещает ручное редактирование"
+        - "/aria-docs-audit умеет проверять живость документа"
+        - "Первый аудит проведён, отчёт в research/living-docs-audit.md"
+        - "SYS_CHANGELOG.md имеет явный контракт чтения /aria-sync и /aria-sync --contribute"
+        - "Правило: policies редактируются только через чат с AI"
+        - "ROADMAP.md — pre-commit валидатор признан механическим читателем (исключение)"
+        - "Правило разделения репозиториев задекларировано (ARIA-инфраструктура ТОЛЬКО в docs-repo)"
+        - "/auto шаг 0.2 проверяет чистоту code-repo"
+        - "/aria-docs-audit проверяет разделение репо обоих репозиториев"
+      commit: "TBD (будет заполнено при Two-Phase Commit)"
+      completed: "2026-04-15"
+      sessions:
+        "2026-04-15":
+          - "living-doc-rule — DONE. 5 файлов: CLAUDE.md.template (+5 правил), DOCUMENTATION_LIFECYCLE.md (+запрет ручн. редактирования, +исключения, +правило разделения репо), aria-docs-audit.md (+6 проверок), aria-sync.md (+контракт SYS_CHANGELOG), research/living-docs-audit.md (создан, первый аудит 0 DEAD документов). Закрывает 4 протечки v2.2 + халатность v2.4."
+      note: "БЛОКЕР снят"
+
+# === Журнал сессий (append /done) ===
+sessions:
+  "2026-04-15":
+    - "living-doc-rule (Task 11) — DONE. Правила живого документа + необходимости + policies через чат + разделения репо + ROADMAP-hook исключение. Контракты SYS_CHANGELOG и research. 5 файлов."
+    - "mcp-infrastructure (Task 2) — DONE. .mcp.json.template (справочный), mcp_servers в adapter.yaml × 3 (python-fastapi: 4 сервера, kotlin/csharp: пусто), STACK.md.template обновлён (мёртвая ссылка TOOLS.md убрана)."
+    - "references-regression-fix (Task 13) — DONE в рамках commands-regression-fix: /spec ШАГ 2 пишет в REFERENCES (Источник/Взяли/Изменили/Антиреференс), группировка по компоненту, /research обязан писать в REFERENCES при находке алгоритма, available_research контракт в ШАГ 0/4/5."
+    - "commands-regression-fix (Task 15) — DONE. 9 команд переписаны: spec.md 409 строк → с универсализацией, review.md 4 детальных ревьюера (Verify/CodeReview/Adversarial/E2E Integration), next-task.md 9 шагов + E2E VERIFY, done.md Two-Phase Commit + гибрид, research.md с REFERENCES, auto.md упрощён, status.md расширен, aria-triage.md создан, aria-release.md FIX. Скрипты: validate_spec_e2e.sh (13 проверок), validate_e2e_results.sh."
+    - "spec-md-infrastructure (Task 8) — DONE. SPEC.md.template создан (9 секций). docs/SPEC.md upstream создан (9 секций). STATE.yaml.template расширен полями files/tests/acceptance/commit/sessions (R1). CLAUDE.md.template расширенная таблица «Структура документов» с писателями/читателями."
+    - "aria-stack-md (Task 9) — DONE. docs/STACK.md upstream создан (12 секций). Контур /done → /aria-docs-audit → pre-commit (декларирован в спеке и командах, реализация хуков отложена в оригинальных bash-скриптах)."
+    - "triage-md (Task 5) — DONE. TRIAGE.md создан в корне upstream, структура активные/архив."
+    - "forks-md (Task 6) — DONE. FORKS.md создан с 3 форками, политикой полей Repo/Version/SyncDate."
+    - "github-infrastructure (Task 7) — DONE. .github/PULL_REQUEST_TEMPLATE.md, .github/labels.yaml (12 labels с командой gh label create), /aria-sync --contribute расширен auto-labeling по затронутым путям."
+    - "aria-triage (Task 4) — DONE. core/commands/aria-triage.md с режимами --accept/--decline/--discuss, контракт записи атрибуции в CHANGELOG (не CONTRIBUTIONS)."
+    - "contributions-md-delete (Task 12) — DONE. CONTRIBUTIONS.md удалён. CHANGELOG_POLICY.md переписана на гибридный формат (scope+таблицы, R2+R5). CHANGELOG.md получил секцию v3.0 с переносом 4 записей и v3.4-dev накопительную. DOCUMENTATION_LIFECYCLE.md обновлён."
+    - "aria-release-notify (Task 10, FIX) — DONE. /aria-release ШАГ 6 удалён (атрибуция теперь через /done и /aria-triage). ШАГ 7 читает FORKS.md (не CONTRIBUTIONS). Auto-labeling + интерактивный выбор уведомляемых форков."
+    - "readme-upstream (Task 14) — DONE. README.md создан — внешняя витрина с 7+ секциями, триггеры обновления через /done."
+    - "aria-init (Task 1) — DONE. core/commands/aria-init.md 14 шагов: интервью → шаблоны → команды → адаптер → hooks → .mcp.json → junction → директории → SPEC.md интерактивно → Two-Phase Commit → валидация (включая разделение репо, R6 через секцию commands в project_config.yaml)."
+    - "roadmap-populate (Task 3) — DONE. core/commands/roadmap-sync.md создан (автоген из SPEC.md). ROADMAP.md upstream ARIA обновлён с 16 задачами Phase 1 + прогресс."
+    - "forks-cleanup-migration (Task 16) — DONE. Форки очищены от ARIA-реликтов, .gitignore расширен запретом ARIA-артефактов. Механизмы защиты (/aria-init, /aria-docs-audit, /auto 0.2) на месте."
+
+
+    - name: spec-md-infrastructure
+      priority: 1
+      status: done
+      depends_on: [living-doc-rule]
+      completed: "2026-04-15"
+      description: "SPEC.md как генеральная спека продукта: шаблон для форков + SPEC.md самой ARIA + контур. STATE.yaml.template расширен полями files/tests/acceptance/commit/sessions (R1)"
+      scope: "[CORE] + [DOCS]"
+      spec: "docs/spec/phase-1-stabilization.md#task-8"
+      files:
+        - core/templates/SPEC.md.template
+        - core/templates/STATE.yaml.template
+        - docs/SPEC.md
+        - core/commands/done.md
+        - core/commands/spec.md
+      tests: []
+      acceptance:
+        - "SPEC.md.template создан, все обязательные секции имеют плейсхолдеры"
+        - "docs/SPEC.md для upstream ARIA создан по шаблону"
+        - "STATE.yaml.template расширен полями files/tests/acceptance/commit (R1)"
+        - "/spec заполняет files/tests/acceptance при создании задачи"
+        - "/done заполняет commit SHA после коммита"
+        - "/aria-init использует SPEC.md.template для генерации"
+      commit: null
+
+    - name: mcp-infrastructure
+      priority: 1
+      status: done
+      depends_on: [living-doc-rule]
+      completed: "2026-04-15"
+      description: "MCP-инфраструктура: .mcp.json.template (справочный), mcp_servers в adapter.yaml, убрать мёртвую ссылку TOOLS.md из STACK.md.template"
+      scope: "[CORE] + [ADAPTER]"
+      spec: "docs/spec/phase-1-stabilization.md#task-2"
+      files:
+        - core/templates/.mcp.json.template
+        - adapters/python-fastapi/adapter.yaml
+        - adapters/kotlin-android/adapter.yaml
+        - adapters/csharp-avalonia/adapter.yaml
+        - core/templates/STACK.md.template
+      tests: []
+      acceptance:
+        - ".mcp.json.template создан"
+        - "Каждый адаптер имеет секцию mcp_servers (даже пустую)"
+        - "Мёртвая ссылка docs/TOOLS.md убрана"
+        - "STACK.md.template ссылается на .mcp.json"
+      commit: null
+
+    - name: references-regression-fix
+      priority: 1
+      status: done
+      depends_on: [living-doc-rule]
+      completed: "2026-04-15"
+      description: "Восстановление контура REFERENCES.md (R3/R4) + контракт чтения research/*.md Аналитиком/Атакером в /spec ШАГ 4 и ШАГ 5 (закрытие протечки v2.2)"
+      scope: "[CORE] + [FIX]"
+      spec: "docs/spec/phase-1-stabilization.md#task-13"
+      files:
+        - core/commands/spec.md
+        - core/commands/research.md
+      tests: []
+      acceptance:
+        - "/spec ШАГ 2 пишет в REFERENCES.md при нахождении алгоритма"
+        - "/spec ШАГ 4 добавляет docs/REFERENCES.md в read_docs spec'и"
+        - "REFERENCES.md создаётся автоматически при первой записи"
+        - "Формат: Источник/Взяли/Изменили/Антиреференс (R3)"
+        - "Группировка по компоненту, не по дате (R4)"
+        - "Шапка содержит блок команд клонирования источников"
+        - "/spec ШАГ 0 агрегирует список research/*.md в available_research"
+        - "/spec ШАГ 4 Аналитик читает релевантные research по теме задачи"
+        - "/spec ШАГ 5 Атакер читает релевантные research при ревью спеки"
+      commit: null
+
+    - name: aria-init
+      priority: 1
+      status: done
+      depends_on: [mcp-infrastructure, spec-md-infrastructure]
+      completed: "2026-04-15"
+      description: "Стартовый промпт: развернуть ARIA под новый проект одной командой. Включает интерактивную генерацию SPEC.md и секцию commands в project_config.yaml (R6)"
+      scope: "[CORE]"
+      spec: "docs/spec/phase-1-stabilization.md#task-1"
+      files:
+        - core/commands/aria-init.md
+        - core/templates/project_config.yaml.template
+      tests: []
+      acceptance:
+        - "Команда проводит через интерактивную настройку"
+        - "Все шаблоны подставлены (нет {{плейсхолдеров}})"
+        - "Hooks установлены и работают"
+        - ".mcp.json сгенерирован или пропущен при пустом mcp_servers"
+        - "SPEC.md сгенерирован интерактивно, пользователь не правит руками"
+        - "STATE.yaml финализирован на основе Roadmap из SPEC.md"
+        - "project_config.yaml содержит секцию commands: {test, lint, typecheck, dev_server} (R6)"
+        - "Two-Phase Commit выполнен"
+      commit: null
+
+    - name: roadmap-populate
+      priority: 1
+      status: done
+      depends_on: [spec-md-infrastructure, aria-init]
+      completed: "2026-04-15"
+      description: "ROADMAP.md — автогенерация из SPEC.md секция 6. Первое наполнение ARIA upstream, pre-commit валидация согласованности"
+      scope: "[DOCS] + [CORE]"
+      spec: "docs/spec/phase-1-stabilization.md#task-3"
+      files:
+        - ROADMAP.md
+        - core/commands/roadmap-sync.md
+        - scripts/hooks/pre-commit
+      tests: []
+      acceptance:
+        - "ROADMAP.md для ARIA upstream содержит Phase 1 с 13 задачами"
+        - "Существует команда автогенерации ROADMAP из SPEC.md"
+        - "Pre-commit hook валидирует согласованность SPEC.md ↔ ROADMAP.md"
+        - "Пользователь не редактирует ROADMAP руками"
+      commit: null
+
+    - name: aria-stack-md
+      priority: 2
+      status: done
+      depends_on: [mcp-infrastructure, living-doc-rule]
+      completed: "2026-04-15"
+      description: "STACK.md для upstream ARIA (12 секций) + контур автообновления через /done, pre-commit, /aria-docs-audit"
+      scope: "[DOCS] + [CORE] + [HOOKS]"
+      spec: "docs/spec/phase-1-stabilization.md#task-9"
+      files:
+        - docs/STACK.md
+        - core/commands/done.md
+        - scripts/hooks/pre-commit
+        - core/commands/aria-docs-audit.md
+      tests: []
+      acceptance:
+        - "docs/STACK.md создан по шаблону, все 12 секций заполнены"
+        - "/done обновляет STACK.md при триггер-событиях"
+        - "Pre-commit hook валидирует согласованность adapter.yaml ↔ STACK.md секция 8"
+        - "/aria-docs-audit проверяет MCP-сервера в adapter.yaml и STACK.md"
+      commit: null
+
+    - name: triage-md
+      priority: 2
+      status: done
+      depends_on: [living-doc-rule]
+      completed: "2026-04-15"
+      description: "TRIAGE.md — промежуточный буфер входящих предложений от форков"
+      scope: "[DOCS]"
+      spec: "docs/spec/phase-1-stabilization.md#task-5"
+      files:
+        - TRIAGE.md
+      tests: []
+      acceptance:
+        - "TRIAGE.md создан с правильной структурой"
+        - "/aria-triage умеет читать и обновлять"
+        - "Пользователь не редактирует руками"
+      commit: null
+
+    - name: forks-md
+      priority: 2
+      status: done
+      depends_on: [living-doc-rule]
+      completed: "2026-04-15"
+      description: "FORKS.md — реестр известных форков с полем Repo для gh issue create"
+      scope: "[DOCS]"
+      spec: "docs/spec/phase-1-stabilization.md#task-6"
+      files:
+        - FORKS.md
+      tests: []
+      acceptance:
+        - "FORKS.md создан с 3 начальными форками"
+        - "/aria-init добавляет запись"
+        - "/aria-sync обновляет Последний sync и ARIA version"
+        - "/aria-release использует для уведомлений (Task 10)"
+      commit: null
+
+    - name: github-infrastructure
+      priority: 2
+      status: done
+      depends_on: [living-doc-rule]
+      completed: "2026-04-15"
+      description: "GitHub labels + PR template + обновление /aria-sync --contribute для auto-labeling"
+      scope: "[META] + [CORE]"
+      spec: "docs/spec/phase-1-stabilization.md#task-7"
+      files:
+        - .github/PULL_REQUEST_TEMPLATE.md
+        - core/commands/aria-sync.md
+      tests: []
+      acceptance:
+        - "PR template создан"
+        - "Labels созданы в GitHub repo (7 штук)"
+        - "/aria-sync --contribute автоматически ставит contribute-back label"
+        - "/aria-sync --contribute ставит scope-labels по затронутым файлам"
+      commit: null
+
+    - name: aria-triage
+      priority: 2
+      status: done
+      depends_on: [triage-md, github-infrastructure, forks-md]
+      completed: "2026-04-15"
+      description: "Команда /aria-triage: пакетная обработка входящих PR/Issues от форков через gh CLI. Атрибуция в CHANGELOG (не CONTRIBUTIONS.md)"
+      scope: "[CORE]"
+      spec: "docs/spec/phase-1-stabilization.md#task-4"
+      files:
+        - core/commands/aria-triage.md
+      tests: []
+      acceptance:
+        - "Команда собирает PR через gh CLI"
+        - "Регистрирует новые в TRIAGE.md"
+        - "Анализирует scope и конфликты"
+        - "Формирует структурированный отчёт"
+        - "Поддерживает --accept, --decline, --discuss"
+        - "Атрибуция пишется в CHANGELOG.md (не в CONTRIBUTIONS.md)"
+      commit: null
+
+    - name: contributions-md-delete
+      priority: 2
+      status: done
+      depends_on: [living-doc-rule, spec-md-infrastructure]
+      completed: "2026-04-15"
+      description: "Удалить CONTRIBUTIONS.md, миграция атрибуции в CHANGELOG (гибридный формат scope+таблицы — R2, R5)"
+      scope: "[DOCS] + [FIX]"
+      spec: "docs/spec/phase-1-stabilization.md#task-12"
+      files:
+        - CHANGELOG.md
+        - docs/policies/CHANGELOG_POLICY.md
+        - docs/policies/DOCUMENTATION_LIFECYCLE.md
+        - core/commands/done.md
+        - core/commands/aria-triage.md
+      tests: []
+      acceptance:
+        - "CONTRIBUTIONS.md удалён"
+        - "4 записи перенесены в CHANGELOG.md под v3.0 в гибридном формате"
+        - "CHANGELOG_POLICY.md описывает гибридный формат (scope-секции + табличные строки задач, R2)"
+        - "/done заполняет все колонки таблицы автоматически"
+        - "/aria-triage --accept добавляет строку с атрибуцией from {fork}, PR #{N}"
+        - "Обратная трассируемость коммит→задача→файлы→тесты сохранена (R5)"
+      commit: null
+
+    - name: aria-release-notify
+      priority: 2
+      status: done
+      depends_on: [forks-md, contributions-md-delete]
+      completed: "2026-04-15"
+      description: "FIX /aria-release: ШАГ 7 читает FORKS.md (было CONTRIBUTIONS.md — не работало), ШАГ 6 удалён (атрибуция теперь в CHANGELOG через /done и /aria-triage)"
+      scope: "[FIX] + [CORE]"
+      spec: "docs/spec/phase-1-stabilization.md#task-10"
+      files:
+        - core/commands/aria-release.md
+      tests: []
+      acceptance:
+        - "ШАГ 6 удалён (функционал поглощён в /done и /aria-triage)"
+        - "ШАГ 7 читает FORKS.md, поле Repo для gh issue create --repo"
+        - "Удалена нерабочая ссылка на CONTRIBUTIONS.md"
+        - "Пользователь может выбрать: все / выборочно / пропустить"
+      commit: null
+
+    - name: commands-regression-fix
+      priority: 1
+      status: done
+      depends_on: [living-doc-rule, references-regression-fix]
+      completed: "2026-04-15"
+      description: "Восстановление полноты core/commands/*.md. /spec 409 строк вместо 52, /review 243 вместо 34, /next-task с E2E VERIFY. Закрывает R7-R12"
+      scope: "[CORE] + [FIX]"
+      spec: "docs/spec/phase-1-stabilization.md#task-15"
+      files:
+        - core/commands/spec.md
+        - core/commands/review.md
+        - core/commands/next-task.md
+        - core/commands/auto.md
+        - core/commands/done.md
+        - core/commands/research.md
+        - core/commands/status.md
+        - core/commands/aria-sync.md
+        - core/commands/e2e-gate.md
+        - scripts/validate_spec_e2e.sh
+        - scripts/validate_e2e_results.sh
+        - adapters/python-fastapi/adapter.yaml
+        - adapters/kotlin-android/adapter.yaml
+        - adapters/csharp-avalonia/adapter.yaml
+      tests: []
+      acceptance:
+        - "spec.md восстановлен: 3 параллельных субагента, Атакер с 23 векторами, E2E Testing Plan (R7-R10)"
+        - "review.md восстановлен: Adversarial Tester пишет тесты, E2E Integration API+browser (R11)"
+        - "next-task.md: ШАГ 8 E2E VERIFY с validate_e2e_results (R12)"
+        - "validate_spec_e2e.sh проверяет 13 пунктов"
+        - "Плейсхолдеры адаптера не ломают структуру команд"
+        - "Первое применение команд к форкам не даёт регрессий"
+      commit: null
+      note: "БЛОКЕР миграции форков — без этого форки потеряют функциональность при переходе на ARIA-команды"
+
+    - name: readme-upstream
+      priority: 2
+      status: done
+      depends_on: [living-doc-rule, spec-md-infrastructure]
+      completed: "2026-04-15"
+      description: "README.md upstream ARIA — класс «внешней аудитории» с явным контуром (AI пишет при триггерах, GitHub-посетители читают). Закрытие последней протечки v2.2"
+      scope: "[DOCS]"
+      spec: "docs/spec/phase-1-stabilization.md#task-14"
+      files:
+        - README.md
+        - core/commands/done.md
+        - docs/policies/DOCUMENTATION_LIFECYCLE.md
+      tests: []
+      acceptance:
+        - "README.md создан со всеми 7 секциями"
+        - "DOCUMENTATION_LIFECYCLE.md описывает триггеры обновления README"
+        - "/done при триггер-событии предлагает обновить README"
+        - "Пользователь не редактирует README вручную"
+        - "README классифицирован как «внешняя аудитория» в правилах живого документа"
+        - "/aria-docs-audit не флагнет README как мёртвый"
+      commit: null
+
+    - name: upstream-self-contained-migration
+      priority: 1
+      status: done
+      depends_on: [living-doc-rule]
+      completed: "2026-04-15"
+      description: "Task 17 (архитектурный фикс): upstream ARIA стал self-contained — вся ARIA перенесена в W4_ARIA. Desktop/Projects/ARIA удалён. Правило разделения репо уточнено: применяется к форкам с application code, upstream — исключение"
+      scope: "[META] + [FIX]"
+      spec: "docs/spec/phase-1-stabilization.md#task-17"
+      files:
+        - W4_ARIA/core/ (перенесён из Desktop/Projects/ARIA/core/)
+        - W4_ARIA/adapters/ (перенесён)
+        - W4_ARIA/scripts/ (перенесён)
+        - W4_ARIA/.github/ (перенесён)
+        - W4_ARIA/docs/ (merged с существующим docs/)
+        - W4_ARIA/.claude/commands/ (создан: 15 runtime-команд с подстановленными плейсхолдерами для self-usage)
+        - W4_ARIA/CHANGELOG.md (из Desktop версии, заменил заглушку)
+        - W4_ARIA/README.md, TRIAGE.md, FORKS.md (перенесены)
+        - W4_ARIA/.gitignore (обновлён: + Yandex.Disk sync-конфликты)
+        - W4_ARIA/PATHS.yaml (переписан под self-contained)
+        - W4_ARIA/CLAUDE.md (обновлён: ARIA_CODE=ARIA_DOCS, убран Two-Phase для upstream)
+      tests: []
+      acceptance:
+        - "Desktop/Projects/ARIA удалён полностью (rm -rf) — DONE"
+        - "W4_ARIA содержит всё: core/, adapters/, scripts/, docs/, .github/, .claude/commands/ — DONE"
+        - "Git .git перенесён в W4_ARIA — DONE (history сохранена, remote = https://github.com/Yura1980Yura/ARIA.git)"
+        - "9 ключевых файлов сверены (размеры байт-в-байт идентичны перед удалением) — DONE"
+        - "PATHS.yaml переписан: ARIA_CODE=ARIA_DOCS, все пути ведут в W4_ARIA — DONE"
+        - ".gitignore запрещает Yandex.Disk sync-конфликты — DONE"
+        - "CLAUDE.md обновлён: правило разделения репо применимо только к форкам — DONE"
+      commit: null
+      completed: "2026-04-15"
+      note: "Архитектурный фикс по запросу пользователя. Раньше упомянутая 'халатность' разделения code/docs между Desktop/Projects/ARIA и W4_ARIA исправлена."
+
+    - name: forks-cleanup-migration
+      priority: 2
+      status: done
+      depends_on: [living-doc-rule, commands-regression-fix]
+      completed: "2026-04-15"
+      description: "Очистка существующих форков от ARIA-реликтов (халатность миграции 6 апреля). Форки очищены 2026-04-15"
+      scope: "[FIX] + [POLICY]"
+      spec: "docs/spec/phase-1-stabilization.md#task-16"
+      files:
+        - "core/commands/aria-init.md"
+        - "core/commands/aria-docs-audit.md"
+      tests: []
+      acceptance:
+        - "Форки очищены от ARIA-реликтов в code-repo (DONE)"
+        - ".gitignore содержит запрет ARIA-артефактов (.claude/, CLAUDE.md, .dev/, STATE.yaml, PATHS.yaml, SYS_CHANGELOG.md) (DONE)"
+        - "/auto шаг 0.2 блокирует при нарушении (DONE)"
+        - "/aria-init создаёт правильный .gitignore для новых форков (DONE в core/commands/aria-init.md ШАГ 11)"
+        - "/aria-docs-audit валидирует разделение репо (DONE в core/commands/aria-docs-audit.md секция 3)"
+      commit: null
+
+# === Критерии завершения Phase 1 ===
+phase_1_completion:
+  - "Правила живого документа и необходимости документа задекларированы и проверяются автоматически"
+  - "Новый пользователь разворачивает ARIA за одну команду (/aria-init) с заполненной SPEC.md продукта"
+  - "MCP-серверы подключаются декларативно через .mcp.json"
+  - "SPEC.md, STACK.md, REFERENCES.md — живые документы с замкнутыми контурами"
+  - "ROADMAP.md автогенерируется из SPEC.md"
+  - "CONTRIBUTIONS.md удалён, атрибуция в CHANGELOG (гибридный формат)"
+  - "Входящие PR от форков обрабатываются через /aria-triage"
+  - "Реестр форков в FORKS.md, /aria-release корректно уведомляет через поле Repo"
+  - "/aria-sync --contribute использует PR template и auto-labeling"
+  - "Регрессия REFERENCES.md устранена (формат Источник/Взяли/Изменили/Антиреференс)"
+  - "Все новые документы имеют замкнутые контуры AI-писатель + AI-читатель"
+  - "Гарантия не-регрессии относительно форков: R1-R6 закрыты"
+
+# === Карта регрессий v2.1 (обратное заимствование из форков) ===
+regressions_closed:
+  R1: "STATE.yaml содержит files/tests/acceptance/commit по задачам (Task 8)"
+  R2: "CHANGELOG гибридный: scope-секции + табличные строки задач (Task 12)"
+  R3: "REFERENCES формат Источник/Взяли/Изменили/Антиреференс (Task 13)"
+  R4: "REFERENCES группировка по компоненту (Task 13)"
+  R5: "Трассируемость коммит→задача→файлы→тесты сохранена (Task 12)"
+  R6: "project_config.yaml содержит секцию commands (Task 1)"
+  R7: "/spec Research детальные инструменты gh/context7/fetch (Task 15)"
+  R8: "/spec Code Reader Архитектурный + Деструктивный (Task 15)"
+  R9: "/spec Атакер 23 вектора + PRE-MORTEM (Task 15)"
+  R10: "/spec E2E Testing Plan TCM+GDQ+метрики (Task 15)"
+  R11: "/review Adversarial Tester + E2E Integration (Task 15)"
+  R12: "/next-task E2E VERIFY gate (Task 15)"
+
+# === Карта закрытия протечек контуров v2.2 ===
+leaks_closed:
+  research_dir: "research/*.md читают Аналитик (/spec ШАГ 4) и Атакер (/spec ШАГ 5) по релевантности (Task 13)"
+  sys_changelog: "SYS_CHANGELOG.md — явный контракт чтения /aria-sync и /aria-sync --contribute (Task 11)"
+  policies_editing: "CHANGELOG_POLICY, DOCUMENTATION_LIFECYCLE, CLAUDE.md — редактируются только через чат с AI (Task 11)"
+  roadmap_reader: "ROADMAP.md — pre-commit валидатор согласованности признан механическим читателем (исключение, Task 11)"
+  readme_upstream: "README.md upstream — класс внешней аудитории, AI-писатель + GitHub-читатели (Task 14)"

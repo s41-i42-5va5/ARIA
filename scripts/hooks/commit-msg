@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# ARIA upstream commit-msg hook
+# Валидирует формат сообщения коммита согласно COMMIT_POLICY
+
+set -e
+
+COMMIT_MSG_FILE=$1
+FIRST_LINE=$(head -n 1 "$COMMIT_MSG_FILE")
+
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
+
+error() { echo -e "${RED}[commit-msg ERROR]${NC} $1" >&2; }
+warn()  { echo -e "${YELLOW}[commit-msg WARN]${NC} $1" >&2; }
+
+# Пропустить merge-коммиты и revert'ы
+if echo "$FIRST_LINE" | grep -qE '^(Merge|Revert)'; then
+    exit 0
+fi
+
+# Пустое или короткое сообщение
+if [ -z "$FIRST_LINE" ] || [ ${#FIRST_LINE} -lt 10 ]; then
+    error "Сообщение коммита слишком короткое (минимум 10 символов)"
+    exit 1
+fi
+
+# Проверка формата: [SCOPE] описание
+if ! echo "$FIRST_LINE" | grep -qE '^\[[A-Z]+\] .+'; then
+    error "Первая строка должна быть в формате: [SCOPE] описание"
+    error "Scopes: CORE, PROTOCOL, ADAPTER, POLICY, DOCS, HOOKS, FIX, META, CONTRIB"
+    error "Получено: $FIRST_LINE"
+    error "См. docs/policies/COMMIT_POLICY.md"
+    exit 1
+fi
+
+# Проверка длины первой строки
+if [ ${#FIRST_LINE} -gt 72 ]; then
+    warn "Первая строка длиннее 72 символов (${#FIRST_LINE}). Рекомендуется сократить."
+fi
+
+# Валидные scopes
+VALID_SCOPE=$(echo "$FIRST_LINE" | grep -oE '^\[[A-Z]+\]' | tr -d '[]')
+case "$VALID_SCOPE" in
+    CORE|PROTOCOL|ADAPTER|POLICY|DOCS|HOOKS|FIX|META|CONTRIB) ;;
+    *)
+        warn "Scope '$VALID_SCOPE' не в списке стандартных. См. COMMIT_POLICY.md"
+        ;;
+esac
+
+# Проверка Co-Authored-By (soft warning)
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+if ! echo "$COMMIT_MSG" | grep -qE '^Co-Authored-By:'; then
+    warn "Отсутствует Co-Authored-By. Для коммитов с участием Claude — обязателен."
+    warn "Формат: Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
+fi
+
+exit 0

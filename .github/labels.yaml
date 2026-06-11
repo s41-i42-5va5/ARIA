@@ -1,0 +1,65 @@
+# ARIA Labels для GitHub
+# Синхронизация: `gh label create --force` для каждой записи в upstream GitHub repo.
+# Auto-labeling: /aria-sync --contribute ставит contribute-back + scope:* на основе затронутых путей.
+#
+# Команда для создания всех labels одним проходом (выполнять из upstream repo):
+#
+# while IFS= read -r line; do
+#   name=$(echo "$line" | yq '.name')
+#   color=$(echo "$line" | yq '.color')
+#   desc=$(echo "$line" | yq '.description')
+#   gh label create "$name" --color "$color" --description "$desc" --force
+# done < <(yq -o=json '.labels[]' .github/labels.yaml | jq -c '.')
+#
+# Альтернатива без yq/jq:
+# gh label create "contribute-back" --color "0E8A16" --description "..." --force
+# (повторить для каждого label вручную)
+
+labels:
+  - name: "contribute-back"
+    color: "0E8A16"
+    description: "PR от форка в upstream ARIA (auto-label /aria-sync --contribute)"
+
+  - name: "scope:core"
+    color: "1D76DB"
+    description: "Затронуты core/commands/, core/protocols/, core/templates/ — общая инфраструктура"
+
+  - name: "scope:adapter"
+    color: "5319E7"
+    description: "Затронуты adapters/* — стек-специфичные дополнения"
+
+  - name: "scope:command"
+    color: "0052CC"
+    description: "Затронуты core/commands/*.md — команды Claude Code"
+
+  - name: "scope:protocol"
+    color: "006B75"
+    description: "Затронуты core/protocols/* — протоколы (fork_sync_playbook и пр.)"
+
+  - name: "scope:hooks"
+    color: "FBCA04"
+    description: "Затронуты scripts/hooks/* — git-hooks"
+
+  - name: "scope:docs"
+    color: "C5DEF5"
+    description: "Затронуты docs/* — документация/политики"
+
+  - name: "breaking"
+    color: "B60205"
+    description: "Ломающее изменение: требует миграции существующих форков"
+
+  - name: "needs-review"
+    color: "F9D0C4"
+    description: "PR собран /aria-triage, ждёт решения upstream-maintainer"
+
+  - name: "status:accepted"
+    color: "0E8A16"
+    description: "PR принят, смерджен, атрибуция в CHANGELOG"
+
+  - name: "status:declined"
+    color: "E99695"
+    description: "PR отклонён с обоснованием"
+
+  - name: "status:discussing"
+    color: "FBCA04"
+    description: "/aria-triage --discuss добавил комментарий, ждёт уточнений от форка"

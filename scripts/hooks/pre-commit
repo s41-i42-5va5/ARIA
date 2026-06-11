@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+# ARIA upstream pre-commit hook
+# Валидирует политики: CHANGELOG_POLICY, COMMIT_POLICY, DOCUMENTATION_LIFECYCLE
+# Устанавливается через scripts/hooks/install.sh
+
+set -e
+
+# Цвета для вывода
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+error() { echo -e "${RED}[ARIA pre-commit ERROR]${NC} $1" >&2; }
+warn()  { echo -e "${YELLOW}[ARIA pre-commit WARN]${NC} $1" >&2; }
+ok()    { echo -e "${GREEN}[ARIA pre-commit OK]${NC} $1"; }
+
+# Файлы, попадающие в коммит
+CHANGED_FILES=$(git diff --cached --name-only --diff-filter=ACMR)
+
+if [ -z "$CHANGED_FILES" ]; then
+    exit 0
+fi
+
+# Категории изменений
+CHANGED_CORE=$(echo "$CHANGED_FILES" | grep -E '^core/(commands|templates|protocols)/|^core/CLAUDE\.md\.template$' || true)
+CHANGED_ADAPTERS=$(echo "$CHANGED_FILES" | grep -E '^adapters/' || true)
+CHANGED_POLICIES=$(echo "$CHANGED_FILES" | grep -E '^docs/policies/' || true)
+CHANGED_GUIDE=$(echo "$CHANGED_FILES" | grep -E '^docs/ARIA_GUIDE\.md$' || true)
+CHANGED_HOOKS=$(echo "$CHANGED_FILES" | grep -E '^scripts/hooks/' || true)
+CHANGED_CHANGELOG=$(echo "$CHANGED_FILES" | grep -E '^CHANGELOG\.md$' || true)
+CHANGED_CONTRIBUTIONS=$(echo "$CHANGED_FILES" | grep -E '^CONTRIBUTIONS\.md$' || true)
+
+# Единственное изменение — CHANGELOG: разрешаем (typo fix)
+TOTAL_CHANGED=$(echo "$CHANGED_FILES" | wc -l)
+if [ "$TOTAL_CHANGED" -eq 1 ] && [ -n "$CHANGED_CHANGELOG" ]; then
+    ok "Изменён только CHANGELOG.md (typo-fix) — пропускаю валидацию"
+    exit 0
+fi
+
+# Единственное изменение — CONTRIBUTIONS: разрешаем
+if [ "$TOTAL_CHANGED" -eq 1 ] && [ -n "$CHANGED_CONTRIBUTIONS" ]; then
+    ok "Изменён только CONTRIBUTIONS.md — пропускаю"
+    exit 0
+fi
+
+# Правило 1: Core/Adapters/Policies/Hooks/Guide → требует CHANGELOG
+if [ -n "$CHANGED_CORE$CHANGED_ADAPTERS$CHANGED_POLICIES$CHANGED_GUIDE$CHANGED_HOOKS" ]; then
+    if [ -z "$CHANGED_CHANGELOG" ]; then
+        error "Изменения в core/ / adapters/ / docs/policies/ / docs/ARIA_GUIDE.md / scripts/hooks/"
+        error "требуют обновления CHANGELOG.md в этом же коммите."
+        error ""
+        error "Изменённые файлы:"
+        echo "$CHANGED_CORE$CHANGED_ADAPTERS$CHANGED_POLICIES$CHANGED_GUIDE$CHANGED_HOOKS" | sed 's/^/  - /' >&2
+        error ""
+        error "См. docs/policies/CHANGELOG_POLICY.md"
+        error "Обход (только для экстренных случаев): git commit --no-verify"
+        exit 1
+    fi
+fi
+
+# Правило 2: Core commands / Adapters / Policies → требуют ARIA_GUIDE update (warning)
+if [ -n "$CHANGED_CORE$CHANGED_ADAPTERS$CHANGED_POLICIES" ] && [ -z "$CHANGED_GUIDE" ]; then
+    warn "Изменения в core/adapters/policies — обычно требуют обновления docs/ARIA_GUIDE.md"
+    warn "Проверь: не устарел ли список команд/адаптеров/политик в ARIA_GUIDE.md?"
+    warn "(предупреждение, не блокирующее)"
+fi
+
+# Правило 3: Hooks изменены → политики должны упоминать это
+if [ -n "$CHANGED_HOOKS" ] && [ -z "$CHANGED_POLICIES" ]; then
+    warn "Hook-скрипт изменён, но политики не тронуты."
+    warn "Убедись, что скрипт не разошёлся с docs/policies/CHANGELOG_POLICY.md"
+    warn "(предупреждение, не блокирующее)"
+fi
+
+# Правило 4: формат сообщения коммита проверяется в commit-msg hook (не тут)
+
+ok "Pre-commit валидация прошла"
+exit 0

@@ -1,0 +1,28 @@
+{
+  "_comment": "СПРАВОЧНЫЙ ШАБЛОН ФОРМАТА .mcp.json (Claude Code project-scoped MCP).",
+  "_note": "Реальный .mcp.json для форка ГЕНЕРИРУЕТСЯ командой /aria-init на лету из секции mcp_servers в adapter.yaml выбранного адаптера. Этот файл — справка по формату, не подстановочный шаблон.",
+  "_windows_wrapper": "На Windows команды оборачиваются в cmd /c (определяется через uname -s в /aria-init). Пример: { \"command\": \"cmd\", \"args\": [\"/c\", \"npx\", \"-y\", \"@package/name\"] }",
+  "_env_substitution": "В env-переменных используется ${VAR_NAME} — Claude Code подставляет из окружения пользователя.",
+
+  "mcpServers": {
+    "server-name": {
+      "command": "npx",
+      "args": ["-y", "@package/name"],
+      "env": {
+        "API_KEY": "${API_KEY}"
+      }
+    },
+    "example-playwright": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-playwright"],
+      "env": {}
+    },
+    "example-postgres": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-postgres"],
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}"
+      }
+    }
+  }
+}

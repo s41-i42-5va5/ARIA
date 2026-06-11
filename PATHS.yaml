@@ -1,0 +1,55 @@
+# ARIA — Единая конфигурация путей (upstream self-contained)
+# ARIA — self-contained upstream: весь проект в одном репо (ARIA_DOCS == ARIA_CODE).
+# Это особенность upstream: нет отдельного "application code" — сам ARIA является и кодом и докой.
+# Для форков с application code — ARIA_DOCS и ARIA_CODE разнесены (см. правило 4 разделения репо).
+
+base: "$ARIA_DOCS"
+
+# ARIA_DOCS = W4_ARIA (и одновременно ARIA_CODE, т.к. upstream self-contained после v3.4 миграции)
+# Обе переменные указывают на одно и то же место для upstream.
+
+# Документация (для чтения /spec, /review, AI)
+state: "$ARIA_DOCS/STATE.yaml"
+global_spec: "$ARIA_DOCS/docs/SPEC.md"
+global_stack: "$ARIA_DOCS/docs/STACK.md"
+references: "$ARIA_DOCS/docs/REFERENCES.md"
+changelog: "$ARIA_DOCS/CHANGELOG.md"
+sys_changelog: "$ARIA_DOCS/SYS_CHANGELOG.md"
+roadmap: "$ARIA_DOCS/ROADMAP.md"
+aria_guide: "$ARIA_DOCS/docs/ARIA_GUIDE.md"
+
+# Спецификации и архитектура
+specs: "$ARIA_DOCS/docs/spec"
+adr: "$ARIA_DOCS/docs/ADR"
+research: "$ARIA_DOCS/docs/research"
+policies: "$ARIA_DOCS/docs/policies"
+audit: "$ARIA_DOCS/docs/audit"
+
+# E2E тестирование (для self-hosted тестов ARIA)
+e2e: "$ARIA_DOCS/tests/e2e"
+
+# Код ARIA (шаблоны, команды, адаптеры — для распространения в форки)
+core: "$ARIA_DOCS/core"
+core_commands: "$ARIA_DOCS/core/commands"
+core_templates: "$ARIA_DOCS/core/templates"
+core_protocols: "$ARIA_DOCS/core/protocols"
+adapters: "$ARIA_DOCS/adapters"
+scripts: "$ARIA_DOCS/scripts"
+hooks: "$ARIA_DOCS/scripts/hooks"
+
+# Runtime для self-usage (AI работает над самой ARIA через эти файлы)
+claude_commands: "$ARIA_DOCS/.claude/commands"
+
+# Упстрим-реестры (для обработки форков)
+triage: "$ARIA_DOCS/TRIAGE.md"
+forks: "$ARIA_DOCS/FORKS.md"
+github: "$ARIA_DOCS/.github"
+
+# Внешняя витрина
+readme: "$ARIA_DOCS/README.md"
+
+# Исторический контекст миграции:
+# До 2026-04-15: ARIA_DOCS=W4_ARIA, ARIA_CODE=Desktop/Projects/ARIA (два каталога)
+# После: ARIA_DOCS=W4_ARIA (единый каталог, Desktop/Projects/ARIA удалён).
+# Правило разделения репо (Task 11) применимо к форкам с application code.
+# Upstream ARIA — признанное исключение: нет application code, всё в docs-репо.

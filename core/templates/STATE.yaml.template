@@ -1,0 +1,39 @@
+project: {{PROJECT_SLUG}}
+updated: "{{DATE}}"
+
+current:
+  phase: 1
+  task: null
+  description: "Инициализация проекта. ARIA адаптирована."
+
+blockers: []
+
+# === Phase 1: {{PHASE_1_TITLE}} ===
+# Источник задач — docs/SPEC.md секция Roadmap. ROADMAP.md = автоген через /roadmap-sync.
+phase_1:
+  title: "{{PHASE_1_TITLE}}"
+  spec: "docs/SPEC.md#roadmap-phase-1"
+  tasks:
+    # === Пример полного контракта задачи (формат — обратное заимствование из форков, Task 8 + R1) ===
+    # - name: example_task
+    #   priority: 1                          # 1 (P1), 2 (P2), 3 (P3)
+    #   status: not_started                  # not_started | in_progress | done | blocked
+    #   depends_on: []                       # [other_task_name, ...]
+    #   description: "Краткое описание задачи"
+    #   scope: "[КОМПОНЕНТ]"                 # для формата коммита
+    #   spec: "docs/spec/example_task.md"    # путь к детальной спеке (создаёт /spec)
+    #   files:                               # файлы, которые создаёт/изменяет задача
+    #     - src/module/file.ext
+    #   tests:                               # файлы тестов
+    #     - tests/module/test_file.ext
+    #   acceptance:                          # встроенные AC (дублируют спеку, но критичны для /auto)
+    #     - "Критерий 1"
+    #     - "Критерий 2"
+    #   commit: null                         # заполняет /done: SHA после коммита
+    #   completed: null                      # заполняет /done: YYYY-MM-DD
+    #   sessions: {}                         # append /done: "YYYY-MM-DD": ["task (SHA) — итог"]
+
+# === Журнал сессий (append-only, обновляется /done) ===
+# sessions:
+#   "2026-04-15":
+#     - "example_task (abc1234) — DONE. Реализован контракт X. 42/42 тестов."

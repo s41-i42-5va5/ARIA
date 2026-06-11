@@ -1,0 +1,27 @@
+project: aria
+description: "ARIA — AI-powered development framework for Claude Code. Universal project management system with adapters for any stack."
+
+model:
+  required: "opus"
+  forbidden: ["sonnet", "haiku"]
+  rule: "ВСЕ субагенты ОБЯЗАНЫ использовать model: opus. Без исключений."
+
+paths:
+  docs: "$ARIA_DOCS"
+  code: "$ARIA_CODE"
+
+git:
+  code_repo: "$ARIA_CODE"
+  remote: "origin"
+  branch: "main"
+  auto_push: true
+
+commands:
+  test: 'bash scripts/hooks/tests/run_all.sh'
+  lint: 'bash -n scripts/hooks/pre-commit && bash -n scripts/hooks/commit-msg && bash -n scripts/hooks/pre-push'
+
+aria:
+  version: "3.3"
+  upstream: "https://github.com/Yura1980Yura/ARIA"
+  adapter: null  # ARIA = upstream, не форк
+  is_upstream: true
