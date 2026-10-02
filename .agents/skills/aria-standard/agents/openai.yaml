@@ -1,0 +1,7 @@
+interface:
+  display_name: "ARIA Standard"
+  short_description: "Средняя задача с одним полезным review"
+  default_prompt: "Use $aria-standard to implement this medium task with relevant context, real tests and one independent review."
+
+policy:
+  allow_implicit_invocation: true

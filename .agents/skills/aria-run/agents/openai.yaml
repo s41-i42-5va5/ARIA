@@ -1,0 +1,7 @@
+interface:
+  display_name: "ARIA Run"
+  short_description: "Один вход для quick, standard и deep задач"
+  default_prompt: "Use $aria-run to route and execute this project task with the smallest sufficient process."
+
+policy:
+  allow_implicit_invocation: true

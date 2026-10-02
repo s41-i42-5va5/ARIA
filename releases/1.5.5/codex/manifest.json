@@ -1,0 +1,81 @@
+{
+  "schema_version": 3,
+  "version": "1.5.5",
+  "release_revision": 1,
+  "release_status": "candidate",
+  "purpose": "portable-test",
+  "wheel": "aria_codex-1.5.5-py3-none-any.whl",
+  "wheel_sha256": "09af31b44537f4bef8735e14b4ffe2da205df8df9fa64b2d43e7a2fb504e0b83",
+  "source_git": {
+    "head": "4f68e97daba6a361b71265610e6e07962476bee0",
+    "branch": "work/p0-backlog-20260902",
+    "commit_timestamp": 1788320802
+  },
+  "python_runtime": {
+    "name": "python.3.12.10.nupkg",
+    "version": "3.12.10",
+    "distribution": "official-nuget",
+    "source": "https://www.nuget.org/packages/python/3.12.10"
+  },
+  "verification": {
+    "status": "accepted",
+    "scope": "local-portable-test",
+    "source_tests": 454,
+    "failures": 0,
+    "skipped": 0,
+    "wheel_reproducible": true,
+    "github_live_acceptance": "pending"
+  },
+  "files": [
+    {
+      "name": "aria_codex-1.5.5-py3-none-any.whl",
+      "sha256": "09af31b44537f4bef8735e14b4ffe2da205df8df9fa64b2d43e7a2fb504e0b83",
+      "size_bytes": 362686
+    },
+    {
+      "name": "cffi-2.1.0-cp312-cp312-win_amd64.whl",
+      "sha256": "c97f080ea627e2863524c5af3836e2270b5f5dfff1f104392b959f8df0c5d384",
+      "size_bytes": 185881
+    },
+    {
+      "name": "cryptography-46.0.7-cp311-abi3-win_amd64.whl",
+      "sha256": "397655da831414d165029da9bc483bed2fe0e75dde6a1523ec2fe63f3c46046b",
+      "size_bytes": 3488363
+    },
+    {
+      "name": "packaging-25.0-py3-none-any.whl",
+      "sha256": "29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484",
+      "size_bytes": 66469
+    },
+    {
+      "name": "pycparser-3.0-py3-none-any.whl",
+      "sha256": "b727414169a36b7d524c1c3e31839a521725078d7b2ff038656844266160a992",
+      "size_bytes": 48172
+    },
+    {
+      "name": "python.3.12.10.nupkg",
+      "sha256": "0eb85c2dfccccf1b17352de4c397f69194035b7d37149eacc16f1147d93de3b8",
+      "size_bytes": 14515433
+    },
+    {
+      "name": "pyyaml-6.0.3-cp312-cp312-win_amd64.whl",
+      "sha256": "5fcd34e47f6e0b794d17de1b4ff496c00986e1c83f7ab2fb8fcfe9616ff7477b",
+      "size_bytes": 154003
+    },
+    {
+      "name": "setuptools-84.0.0-py3-none-any.whl",
+      "sha256": "51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670",
+      "size_bytes": 818216
+    },
+    {
+      "name": "wheel-0.48.0-py3-none-any.whl",
+      "sha256": "3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab",
+      "size_bytes": 33320
+    },
+    {
+      "name": "MinGit-2.55.0.5-64-bit.zip",
+      "sha256": "56d7b226b7693196cfc71fef26568f536c4a021ab6c37ff2db4287bed908e96e",
+      "size_bytes": 38989688
+    }
+  ]
+}

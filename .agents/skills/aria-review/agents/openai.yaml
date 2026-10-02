@@ -1,0 +1,7 @@
+interface:
+  display_name: "ARIA Review"
+  short_description: "Гибкое ревью спеки, компонента или всего кода"
+  default_prompt: "Use $aria-review to review an immutable project-aware scope with risk-based verification."
+
+policy:
+  allow_implicit_invocation: true

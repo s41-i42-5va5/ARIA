@@ -1,0 +1,7 @@
+interface:
+  display_name: "ARIA Quick"
+  short_description: "Быстрые low-risk задачи с проверяемым результатом"
+  default_prompt: "Use $aria-quick to complete this low-risk task with verified evidence."
+
+policy:
+  allow_implicit_invocation: true

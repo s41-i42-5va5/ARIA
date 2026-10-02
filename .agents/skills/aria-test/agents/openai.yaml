@@ -1,0 +1,7 @@
+interface:
+  display_name: "ARIA Test"
+  short_description: "Минимально достаточные тесты и реальный read-back"
+  default_prompt: "Use $aria-test to verify this target at the smallest sufficient level and inspect actual output."
+
+policy:
+  allow_implicit_invocation: true

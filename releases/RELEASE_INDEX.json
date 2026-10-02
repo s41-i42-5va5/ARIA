@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "product": "A.R.I.A.",
+  "versions": [
+    {
+      "version": "1.5.5",
+      "variant": "codex",
+      "platform": "windows-x64",
+      "package": "ARIA-1.5.5-codex-windows-x64.zip",
+      "immutable_files": 113,
+      "portable_manifest_sha256": "d0701fa7901d93ba8ffd4864153dad2052879f601a405be96cc4d51684fca9f7"
+    },
+    {
+      "version": "1.5.5",
+      "variant": "claude",
+      "platform": "windows-x64",
+      "package": "ARIA-1.5.5-claude-windows-x64.zip",
+      "immutable_files": 117,
+      "portable_manifest_sha256": "6090847c7a2be12e03ab5aa25e0ec7627e4c4e0aad173533a51def53e900a4ee"
+    }
+  ]
+}

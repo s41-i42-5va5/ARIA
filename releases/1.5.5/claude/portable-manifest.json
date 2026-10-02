@@ -1,0 +1,608 @@
+{
+  "schema_version": 1,
+  "product": "ARIA 1.5.5 for Claude Code portable release",
+  "version": "1.5.5",
+  "variant": "claude-code",
+  "platform": "windows-x64",
+  "installation_network": "offline",
+  "includes_mcp_server": false,
+  "bundled_python": {
+    "version": "3.12.10",
+    "file": "python.3.12.10.nupkg",
+    "source": "https://www.nuget.org/packages/python/3.12.10"
+  },
+  "bundled_git": {
+    "version": "2.55.0.windows.5",
+    "file": "MinGit-2.55.0.5-64-bit.zip",
+    "scope": "ARIA runtime only; Claude Code still requires Git Bash or WSL on Windows",
+    "upstream_sha256": "56d7b226b7693196cfc71fef26568f536c4a021ab6c37ff2db4287bed908e96e"
+  },
+  "accepted_manifest_sha256": "d3b055ec90790d7395843462be6cc0165124b1c741e805ba18412b402af2ecfc",
+  "files": [
+    {
+      "path": "ИНСТРУКЦИЯ.md",
+      "size_bytes": 4441,
+      "sha256": "ea33c0b5a46733577297b7cf6cd78c1e5426f35f6b4cb64e129f2ceec770185e"
+    },
+    {
+      "path": "ПРОВЕРКА_ПОСТАВКИ.md",
+      "size_bytes": 2499,
+      "sha256": "82c24655573de64673b92f0022f8bd828bf094b9cb336143d88016cb223d23ab"
+    },
+    {
+      "path": "ФУНКЦИОНАЛ.md",
+      "size_bytes": 2588,
+      "sha256": "45d3ecb2427f926bcefc12c0ef1677738a9b05bce0b1f337d9892562a9da7769"
+    },
+    {
+      "path": "aria_codex-1.5.5-py3-none-any.whl",
+      "size_bytes": 370088,
+      "sha256": "71d7c1ba4e3e24713b04674c2c72705b5746aa5fa9539fb0cc1f2d739f31e104"
+    },
+    {
+      "path": "cffi-2.1.0-cp312-cp312-win_amd64.whl",
+      "size_bytes": 185881,
+      "sha256": "c97f080ea627e2863524c5af3836e2270b5f5dfff1f104392b959f8df0c5d384"
+    },
+    {
+      "path": "CHECK_RELEASE.cmd",
+      "size_bytes": 437,
+      "sha256": "30ca700cf92a2ee5604b9be6bf0c364c4fd930a19af300a3725749120f740acd"
+    },
+    {
+      "path": "cryptography-46.0.7-cp311-abi3-win_amd64.whl",
+      "size_bytes": 3488363,
+      "sha256": "397655da831414d165029da9bc483bed2fe0e75dde6a1523ec2fe63f3c46046b"
+    },
+    {
+      "path": "framework/.aria-root",
+      "size_bytes": 33,
+      "sha256": "b529f3f19e9e9fed0577444314c7ee092ed2caf87c2661a28c63425aa72847df"
+    },
+    {
+      "path": "framework/aria_codex-1.5.5.dist-info/direct_url.json",
+      "size_bytes": 315,
+      "sha256": "267ed66e58e0644e001f0d61697e4362b6d5230268d412a5d07f19827b7a268d"
+    },
+    {
+      "path": "framework/aria_codex-1.5.5.dist-info/entry_points.txt",
+      "size_bytes": 127,
+      "sha256": "d20ab1d6278f49d1b93561668d37b08293079c20a6aed0e1bdacc3b9a9f51945"
+    },
+    {
+      "path": "framework/aria_codex-1.5.5.dist-info/INSTALLER",
+      "size_bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508"
+    },
+    {
+      "path": "framework/aria_codex-1.5.5.dist-info/METADATA",
+      "size_bytes": 232,
+      "sha256": "802bd3c71d21922651e3298588a1dd46ed95749b8b7b8acfa7f81c0ed42774bb"
+    },
+    {
+      "path": "framework/aria_codex-1.5.5.dist-info/RECORD",
+      "size_bytes": 11458,
+      "sha256": "1d51f4669b80f709fc1fba2b9e78453eef945a8212cfff3009ddec26c3f9d8d6"
+    },
+    {
+      "path": "framework/aria_codex-1.5.5.dist-info/REQUESTED",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "framework/aria_codex-1.5.5.dist-info/top_level.txt",
+      "size_bytes": 5,
+      "sha256": "295812f2fcab8af8b86ba8b30ab3e56dfb401fc13ff4ea5ebc4a79ba025c468f"
+    },
+    {
+      "path": "framework/aria_codex-1.5.5.dist-info/WHEEL",
+      "size_bytes": 91,
+      "sha256": "61532836a2b3111b7ec23519c09df7c41180c27165fb872a6d8913b566b88ad1"
+    },
+    {
+      "path": "framework/aria/__init__.py",
+      "size_bytes": 222,
+      "sha256": "28d786f554832719fba6be003bcb7bcc341338f34060acea03306bcac5994ea5"
+    },
+    {
+      "path": "framework/aria/__main__.py",
+      "size_bytes": 89,
+      "sha256": "c5760f15f5512965a9a429462e97f800bd59c5ade99e3865943f23182f3a6d0d"
+    },
+    {
+      "path": "framework/aria/access.py",
+      "size_bytes": 30923,
+      "sha256": "dca0cade35a2dcc52be70efe5a156cb07c2178f139c3588d53763519ea009970"
+    },
+    {
+      "path": "framework/aria/activity_coordinator.py",
+      "size_bytes": 27424,
+      "sha256": "e3e6581cd1a301aa25a9e4bb0f914389e7cdb60cc289028e7d4375228b890e01"
+    },
+    {
+      "path": "framework/aria/activity_outbox.py",
+      "size_bytes": 29978,
+      "sha256": "59a80c7e5d5dfe73b1a6ff187cb7c1efb19712aac53808fa665365aa91e040e3"
+    },
+    {
+      "path": "framework/aria/activity.py",
+      "size_bytes": 18421,
+      "sha256": "6e5f479bf781a00450649e2a7789b722afbbffa5aaa496d18b2fda40f516fd82"
+    },
+    {
+      "path": "framework/aria/assurance.py",
+      "size_bytes": 39122,
+      "sha256": "3d45cf696ce403441246408242893fa4f2cfed0104aa5811b3f8d370ff7dc923"
+    },
+    {
+      "path": "framework/aria/backlog.py",
+      "size_bytes": 48101,
+      "sha256": "5091581108b749e65bdb78655fcc32c3b538f67e73bc7c8e1f1419e96b82821a"
+    },
+    {
+      "path": "framework/aria/ci.py",
+      "size_bytes": 41734,
+      "sha256": "32efe75354ad7fdb5b053e545d4a77b4d128ecfd3b0fb5d940a93f78ec8f1dd6"
+    },
+    {
+      "path": "framework/aria/claude_hook.py",
+      "size_bytes": 3823,
+      "sha256": "5ba4ac296a2b8d87ac28897bf3981ac4e94474358cf7f95850af37945437a952"
+    },
+    {
+      "path": "framework/aria/claude_integration.py",
+      "size_bytes": 13888,
+      "sha256": "8e45dff88a9edbf3223555fcb6b09e5bd7482301e654c89d45cca16a35c3e321"
+    },
+    {
+      "path": "framework/aria/claude_skills/aria-project/SKILL.md",
+      "size_bytes": 4224,
+      "sha256": "a5b13f8f9ddaea69edc501556cf4c24fe4ad5b0ad6ec868a4d537e1db9992885"
+    },
+    {
+      "path": "framework/aria/cli.py",
+      "size_bytes": 115646,
+      "sha256": "15d5b61db845ce7e847555c4d93e0680fb14c2abe81af71c9c013e75f3ab093f"
+    },
+    {
+      "path": "framework/aria/codex_integration.py",
+      "size_bytes": 9886,
+      "sha256": "b490664797357d6356501e571933381deafc1459092b352379cd78496829b037"
+    },
+    {
+      "path": "framework/aria/codex_skills/aria-project/SKILL.md",
+      "size_bytes": 4222,
+      "sha256": "8a949947848b3774ff8ec6695bef73d964226bd6c41bbe7c605d5a7cfe23adca"
+    },
+    {
+      "path": "framework/aria/collaboration_apply.py",
+      "size_bytes": 11475,
+      "sha256": "e4c9054ebfcd0d0e7dbfd8f0f72de7a1ff48e44357054b26b69b5e7403fae6a8"
+    },
+    {
+      "path": "framework/aria/collaboration.py",
+      "size_bytes": 28751,
+      "sha256": "b194917bcdc42f3ceadea11ce47354ca7ad233bb09ae55a9707dae4f46dabb3c"
+    },
+    {
+      "path": "framework/aria/collaborative_activity_runtime.py",
+      "size_bytes": 14474,
+      "sha256": "dea8d1a7741450b2352d421bdb55f271a2f63c9b9cc35491c186946a7573e2cd"
+    },
+    {
+      "path": "framework/aria/collaborative_backlog_coordinator.py",
+      "size_bytes": 9122,
+      "sha256": "ef219aa341ca08db7e8e644009ccea40f6c26af5d91fa990767fffac7b9d73f0"
+    },
+    {
+      "path": "framework/aria/collaborative_backlog_runtime.py",
+      "size_bytes": 10824,
+      "sha256": "03da198f5091d6747a6f5bfa5b85f0bc57c093af4d90f8b34bd654941ac76f9a"
+    },
+    {
+      "path": "framework/aria/collaborative_backlog.py",
+      "size_bytes": 46084,
+      "sha256": "a6e6566695781875fce3682c4ff5995adc81874a8ed036b23ed6ad5228acc30b"
+    },
+    {
+      "path": "framework/aria/collaborative_doctor.py",
+      "size_bytes": 9461,
+      "sha256": "130cf0724a4d29f929d81536586e55a7e8867570d60a470e8316ca8b51191286"
+    },
+    {
+      "path": "framework/aria/collaborative_documents.py",
+      "size_bytes": 12000,
+      "sha256": "3eabb35c454203815128e7887e60dd4f87413633e6e55e21573171249f20b239"
+    },
+    {
+      "path": "framework/aria/collaborative_migration.py",
+      "size_bytes": 39799,
+      "sha256": "1d6ac51339c6569ac9fc0e0108ac486e3b0b4fab43f3861da13b27495499733d"
+    },
+    {
+      "path": "framework/aria/collaborative_request_queue.py",
+      "size_bytes": 31141,
+      "sha256": "0ad0a482679555c8fb0455e29974d319daeedf2f8055d4ae2deb5c7fab4ada62"
+    },
+    {
+      "path": "framework/aria/collaborative_runtime.py",
+      "size_bytes": 4449,
+      "sha256": "2a942769e6a6e1761fd36e436f7628999c63ca5f1f05a5bddabb7c055e1b3399"
+    },
+    {
+      "path": "framework/aria/collaborative_state_coordinator.py",
+      "size_bytes": 8012,
+      "sha256": "ccd02d44fb518645f9a7a18403b52e1c190462f3034766e8e35312354b667569"
+    },
+    {
+      "path": "framework/aria/collaborative_state_runtime.py",
+      "size_bytes": 24343,
+      "sha256": "8ee7d8ed8457bc13d38784e7f76565d25feba76ce383498f60a6e9b37a6847f5"
+    },
+    {
+      "path": "framework/aria/collaborative_state.py",
+      "size_bytes": 16372,
+      "sha256": "09a129359af3bae4e0f54a4345ecaf74e3539a8401121791aa6dcf5eccbafc60"
+    },
+    {
+      "path": "framework/aria/collaborative_team_coordinator.py",
+      "size_bytes": 11670,
+      "sha256": "074574fc22767b06821a680cda58fe1872dffbf42c105879aa9a26e006df3bd7"
+    },
+    {
+      "path": "framework/aria/collaborative_team_runtime.py",
+      "size_bytes": 24236,
+      "sha256": "de967597a87f20e0c200477d994bd2679074fb05ced6d824ca84f4a380cd2c2f"
+    },
+    {
+      "path": "framework/aria/collaborative_team.py",
+      "size_bytes": 26389,
+      "sha256": "d151acc50e676d4631bc5b477f03bfd09ebb82b6e241eab173590318d70a194e"
+    },
+    {
+      "path": "framework/aria/collaborative_worker.py",
+      "size_bytes": 11728,
+      "sha256": "34a482e10c5dff66b5e002cc16392dda16720c377bcd294ca579f66862496e9a"
+    },
+    {
+      "path": "framework/aria/control_worktree_sync.py",
+      "size_bytes": 21416,
+      "sha256": "a69c09aab05d71fa6a788402c550aada9f61f02769d92f2fadf86f7b2d18fde9"
+    },
+    {
+      "path": "framework/aria/coordinator_scheduler.py",
+      "size_bytes": 32735,
+      "sha256": "fb1355c7b29b861b0eb4f08820f692607a31e3a3bc00d4fed3f030982b7cbd4f"
+    },
+    {
+      "path": "framework/aria/errors.py",
+      "size_bytes": 734,
+      "sha256": "83d6254e2294fae3eb6fdd6246f6da748f68c73cfadadee6a153947cb629d5e2"
+    },
+    {
+      "path": "framework/aria/events_time.py",
+      "size_bytes": 166,
+      "sha256": "3d5cd495aa0eb68072d9b45532f16707f038b6992840c95377a3f4285bf0a1fc"
+    },
+    {
+      "path": "framework/aria/evidence_package.py",
+      "size_bytes": 27150,
+      "sha256": "2db0b78dc980c03402b57d8c1e6dcc6aeed6c39f45c96a9032756d3aa6c858a3"
+    },
+    {
+      "path": "framework/aria/execution.py",
+      "size_bytes": 45483,
+      "sha256": "3a8be0e72e2225edc26e5d424d89300fa991da1b4c11db88cc675e386f88ff13"
+    },
+    {
+      "path": "framework/aria/feature_contract.py",
+      "size_bytes": 29297,
+      "sha256": "fb85a57af0a498019c0e7d619c333a4500d7d354cae86a9cf8caafd8ac006935"
+    },
+    {
+      "path": "framework/aria/file_scope.py",
+      "size_bytes": 4051,
+      "sha256": "04fa1395440bd67789971eceabd1adb58454ae07bc9eda8a5db1354c00041bc7"
+    },
+    {
+      "path": "framework/aria/framework_doctor.py",
+      "size_bytes": 3569,
+      "sha256": "49d60726456b03d5ae6811743e655c0535717636f4ae25b602c66239af3ce0ff"
+    },
+    {
+      "path": "framework/aria/github_app.py",
+      "size_bytes": 13972,
+      "sha256": "6effc4b74e9d8b62243e556e7cf2e697f9ce15bd684ca2229ddcb342e49ba646"
+    },
+    {
+      "path": "framework/aria/github_askpass.py",
+      "size_bytes": 1810,
+      "sha256": "b91f6c0993adb0019f59729b6b85438eef1a44845f88c66ce134f2e3fe37aad0"
+    },
+    {
+      "path": "framework/aria/github_auth.py",
+      "size_bytes": 9359,
+      "sha256": "b7517e2392723487480f3e866a494b14eedeec81ad3c1370ceef3e1feb05e97c"
+    },
+    {
+      "path": "framework/aria/github_control.py",
+      "size_bytes": 10048,
+      "sha256": "7f2721ae0daefd99b1d166907e7b5acead4956d0538109ee804707fc92c0d63e"
+    },
+    {
+      "path": "framework/aria/github_git.py",
+      "size_bytes": 1277,
+      "sha256": "260fbd898ef6f7ba51e3f9f9d18e26e23e5ff7af1c0a09a485025e646a1a176e"
+    },
+    {
+      "path": "framework/aria/github_integration.py",
+      "size_bytes": 33206,
+      "sha256": "f6d7e64a6cd9481355d85434e26ad103cf60287ca99ebe0ced92f536672f6b9c"
+    },
+    {
+      "path": "framework/aria/github_login.py",
+      "size_bytes": 7932,
+      "sha256": "c46d8c05af69ebd9545308a9a78e229beb5515377ad020ba49f07c8feb8fa5ce"
+    },
+    {
+      "path": "framework/aria/github_repository.py",
+      "size_bytes": 11942,
+      "sha256": "6e8306b9aeffbb51eec1efe2364a8c4a8476103210588603fcac4f214bd98ddc"
+    },
+    {
+      "path": "framework/aria/github_request_queue.py",
+      "size_bytes": 20609,
+      "sha256": "896bdc686236b635df89318fb0039e16cc1d1483273aedfe5d0547f375643df1"
+    },
+    {
+      "path": "framework/aria/github_runtime.py",
+      "size_bytes": 7924,
+      "sha256": "2352288aefe611853a7772c34de068e8c6c5e3e82a76861aaa3cfa97c403b578"
+    },
+    {
+      "path": "framework/aria/github_session.py",
+      "size_bytes": 12798,
+      "sha256": "8c991c7ad56df8abe55c61d07f5469678d0ef892dd9ca4a8d48b527753b293f7"
+    },
+    {
+      "path": "framework/aria/github_team.py",
+      "size_bytes": 10231,
+      "sha256": "2c3050645515332bba013ac7d701f6c81582f7f8e94f2cb868b183b4cef0a8e1"
+    },
+    {
+      "path": "framework/aria/github.py",
+      "size_bytes": 26593,
+      "sha256": "eb07806c8f27807d7bd9d040e1d0fb1d116dcbc5b6a39ff9095d4f560158ff94"
+    },
+    {
+      "path": "framework/aria/governance.py",
+      "size_bytes": 18600,
+      "sha256": "816dbf13c257a66df03a7651e0e3f971e14f02b78d67c89cb9ff444e9d7e04f4"
+    },
+    {
+      "path": "framework/aria/identity.py",
+      "size_bytes": 13805,
+      "sha256": "96d4974c78365d26b397ebc8bc680790ec2a1c65b76bdfc77f741183776a04fa"
+    },
+    {
+      "path": "framework/aria/integration_gate.py",
+      "size_bytes": 11449,
+      "sha256": "dd70a34d29891635fa079e551ad8c6530759407d97048915de0792e9a05d2da8"
+    },
+    {
+      "path": "framework/aria/integrity.py",
+      "size_bytes": 2707,
+      "sha256": "213f6ccaf8dcef2a2ca5ad399516bd04b8dc67917b657b1ade5c30fd2dd876b6"
+    },
+    {
+      "path": "framework/aria/io.py",
+      "size_bytes": 4120,
+      "sha256": "e3fcad9d5c92352c7588b15ba56625e84798b7802688e1b473563b0712318964"
+    },
+    {
+      "path": "framework/aria/lessons.py",
+      "size_bytes": 11643,
+      "sha256": "41e873fba24db0e76ac5b03d9155e453d206f6c233019c4098e1a83d3486770d"
+    },
+    {
+      "path": "framework/aria/lifecycle.py",
+      "size_bytes": 34469,
+      "sha256": "269f1639f773a2f20d6f0b7c594de56c6288d44acd245c55b9a2c66a4a042d75"
+    },
+    {
+      "path": "framework/aria/migration_1_4.py",
+      "size_bytes": 7321,
+      "sha256": "a0245536d6dd69952e5ee985423dcba051a62454e82a04536a678da502baf5bd"
+    },
+    {
+      "path": "framework/aria/migration_1_5.py",
+      "size_bytes": 19422,
+      "sha256": "7fac94e11a6bd0ed2a5259224adb35856472201a400a042ff735bd981ac567fc"
+    },
+    {
+      "path": "framework/aria/project_activation.py",
+      "size_bytes": 23220,
+      "sha256": "bf663e4aef6b88a0ef66199c90b15719496806e0425855ced3f51e9f3d32d1ac"
+    },
+    {
+      "path": "framework/aria/project_connect.py",
+      "size_bytes": 19646,
+      "sha256": "d056847e42e0109ca22fcd28e1d645550dca0dee6cccd9d7d80cef989f2e8a34"
+    },
+    {
+      "path": "framework/aria/project_create.py",
+      "size_bytes": 20083,
+      "sha256": "a333bd227511f9234f7a439b16e29f2adb79c1f793777d3fd32d9e9f30bea25d"
+    },
+    {
+      "path": "framework/aria/project_init.py",
+      "size_bytes": 17944,
+      "sha256": "9213751c967b69974c0be8c9776dcf31231afeb7e904256d16148cba5bcd5de4"
+    },
+    {
+      "path": "framework/aria/project_join.py",
+      "size_bytes": 16400,
+      "sha256": "9e696352e9c85bb67fef271245ddba2544380d916ecac184ef7328ef44c91c55"
+    },
+    {
+      "path": "framework/aria/project_state.py",
+      "size_bytes": 26359,
+      "sha256": "c063532abad0c776a1a47d21c5b058425d77721103d35e547bf08ebef874fc70"
+    },
+    {
+      "path": "framework/aria/project.py",
+      "size_bytes": 53327,
+      "sha256": "80c2c6571d2d820baa4d8763298ab1cf819cd13c8dabbae794b3cf1b054f388a"
+    },
+    {
+      "path": "framework/aria/provider.py",
+      "size_bytes": 7291,
+      "sha256": "9b3b114319c3c68a4fc583f5a681de21e0d28d3560158e64f55891335be09c75"
+    },
+    {
+      "path": "framework/aria/registry.py",
+      "size_bytes": 7261,
+      "sha256": "aa10eec09a4a80bc5e41760864547ff2002479b8959d4db65f755a33b6d6abf5"
+    },
+    {
+      "path": "framework/aria/release_check.py",
+      "size_bytes": 116029,
+      "sha256": "b66d517564215faf2bf79f4a535ce32ad1afad159a29dece4f5a0b1218ed3064"
+    },
+    {
+      "path": "framework/aria/routing.py",
+      "size_bytes": 6292,
+      "sha256": "40ae41b2de9f9de85a01977cd29d14514ab7535a0ef0f66dd0f7883c26f3476a"
+    },
+    {
+      "path": "framework/aria/run_contracts.py",
+      "size_bytes": 6781,
+      "sha256": "3c5c95f0a1a56a9133942e6c5946b1305b24c19cfd790ee347aff18a0d417d1b"
+    },
+    {
+      "path": "framework/aria/signing.py",
+      "size_bytes": 5590,
+      "sha256": "eb656c7f1ed63630c66173617ad031df52219e3008b0ee678efb7c516e1e0771"
+    },
+    {
+      "path": "framework/aria/simple_run.py",
+      "size_bytes": 194929,
+      "sha256": "8f8ad687f8dc4f3cf7bec0233ab91fd79746fc6d728c41ea185e96365732a414"
+    },
+    {
+      "path": "framework/aria/team.py",
+      "size_bytes": 11928,
+      "sha256": "b7f0782764446db5d0b29e5b29f5fa4463bf51e960bbe318e694ac1588135c7e"
+    },
+    {
+      "path": "framework/aria/trust.py",
+      "size_bytes": 12716,
+      "sha256": "fe63411d093c4ee0a374bdd5f0b6be97f1131555ab6660ee9e1b193446df244a"
+    },
+    {
+      "path": "framework/bin/aria-claude-hook.exe",
+      "size_bytes": 108439,
+      "sha256": "958e5b24deb0b83fa9c38c290bd49835d9884f842f0e16e582030681651d1114"
+    },
+    {
+      "path": "framework/bin/aria-github-askpass.exe",
+      "size_bytes": 108442,
+      "sha256": "ea057f049ff559180347cb28120840b55d3aafa86c0fc9a05993ee862eaa6177"
+    },
+    {
+      "path": "framework/bin/aria.exe",
+      "size_bytes": 108431,
+      "sha256": "3c488c908d60c1cbda214ea6e9984e5ce9b3d4caa4c7cbc3727e53ea172d12eb"
+    },
+    {
+      "path": "framework/pyproject.toml",
+      "size_bytes": 641,
+      "sha256": "1a4472c30e6398c2325340185cb3f1a72c2b49d6b8e643657dc8b530d6c66fc3"
+    },
+    {
+      "path": "FULL_README.md",
+      "size_bytes": 39534,
+      "sha256": "1bd0e3eae7741a994ed786d13055c49b19ed549719a40d7a524d08969431e284"
+    },
+    {
+      "path": "INSTALL.cmd",
+      "size_bytes": 165,
+      "sha256": "f67fce7b489d8794dd4330c1b3466bf55022c0fccab425292b2198cb63386476"
+    },
+    {
+      "path": "install.ps1",
+      "size_bytes": 7286,
+      "sha256": "7f288a9fe5572a64d4a498b29b57da9220c0b7afaa0a6658a9efd4c54490d8a1"
+    },
+    {
+      "path": "manifest.json",
+      "size_bytes": 3002,
+      "sha256": "d3b055ec90790d7395843462be6cc0165124b1c741e805ba18412b402af2ecfc"
+    },
+    {
+      "path": "MinGit-2.55.0.5-64-bit.zip",
+      "size_bytes": 38989688,
+      "sha256": "56d7b226b7693196cfc71fef26568f536c4a021ab6c37ff2db4287bed908e96e"
+    },
+    {
+      "path": "packaging-25.0-py3-none-any.whl",
+      "size_bytes": 66469,
+      "sha256": "29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484"
+    },
+    {
+      "path": "pycparser-3.0-py3-none-any.whl",
+      "size_bytes": 48172,
+      "sha256": "b727414169a36b7d524c1c3e31839a521725078d7b2ff038656844266160a992"
+    },
+    {
+      "path": "python.3.12.10.nupkg",
+      "size_bytes": 14515433,
+      "sha256": "0eb85c2dfccccf1b17352de4c397f69194035b7d37149eacc16f1147d93de3b8"
+    },
+    {
+      "path": "pyyaml-6.0.3-cp312-cp312-win_amd64.whl",
+      "size_bytes": 154003,
+      "sha256": "5fcd34e47f6e0b794d17de1b4ff496c00986e1c83f7ab2fb8fcfe9616ff7477b"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 1488,
+      "sha256": "1e20abfd1ec2a9b6c3271fc99aff1f5db62267e06a4cf6d3e562128c81a6ce13"
+    },
+    {
+      "path": "release-info.json",
+      "size_bytes": 340,
+      "sha256": "ccb1c1d5bd5b671482d37e68e54a9382c4b05f13c14025b6fe1eb821c23710e8"
+    },
+    {
+      "path": "RUN_ARIA.cmd",
+      "size_bytes": 503,
+      "sha256": "0d161eb5fe5f35ff57e1908e2ec96889f948376697cd416265812f744f93286e"
+    },
+    {
+      "path": "setuptools-84.0.0-py3-none-any.whl",
+      "size_bytes": 818216,
+      "sha256": "51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670"
+    },
+    {
+      "path": "UNINSTALL.cmd",
+      "size_bytes": 167,
+      "sha256": "5dabe91501629ee2c816a66da65ec23002ac5a7b96b0362419d752ebc2696b18"
+    },
+    {
+      "path": "uninstall.ps1",
+      "size_bytes": 2552,
+      "sha256": "b701793fb014d588d4d4ecfcfa59a92c24a8c56aee3afd39f49ba8fb1f272e3f"
+    },
+    {
+      "path": "verify-release.ps1",
+      "size_bytes": 3055,
+      "sha256": "1c8c9afdea688c68df455b0283fd25fa5b57e0b964a5c81060fbac94c549574f"
+    },
+    {
+      "path": "wheel-0.48.0-py3-none-any.whl",
+      "size_bytes": 33320,
+      "sha256": "3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+interface:
+  display_name: "ARIA Spec"
+  short_description: "Проектирование проверенных спецификаций ARIA"
+  default_prompt: "Use $aria-spec to design a verified project specification."
+
+policy:
+  allow_implicit_invocation: true

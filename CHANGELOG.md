@@ -1,193 +1,300 @@
-# ARIA — Changelog
+# Changelog
 
-> **Формат:** гибридный — scope-секции по версиям + табличные строки задач внутри.
-> Подробности — в `docs/policies/CHANGELOG_POLICY.md`.
-> **Внимание:** старые версии (v3.0-v3.3) до Phase 1 могут использовать исходный scope-только формат (без табличных строк) — исторический.
-> Новые записи (v3.4+) — только гибридный формат.
+All notable ARIA changes are recorded here. Versions follow semantic versioning.
 
----
+## 1.5.5 portable test candidate — 2026-09-02
 
-## v3.4-dev (in progress) — Phase 1: Стабилизация и автоматизация
+### Included
 
-> Накопительная версия — `/aria-triage --accept` и `/done` пополняют таблицы ниже.
-> При релизе `/aria-release v3.4.0 "Phase 1 стабилизация"` эта `-dev` → `v3.4.0 ({дата})`.
+- Added a separate Claude Code distribution integration: packaged `aria-project` skill,
+  `aria claude install/status/remove`, safe merge into user `settings.json`, and a fail-closed
+  `PreToolUse` hook protecting Coordinator-owned control files and the `aria-control` branch.
+- Claude integration contains no MCP server and does not store Anthropic or GitHub secrets.
 
-### Core
-| дата | task | SHA | файлы | тесты | атрибуция |
-|------|------|-----|-------|-------|-----------|
-| 2026-04-15 | spec-md-infrastructure (Task 8) | TBD | core/templates/SPEC.md.template, core/templates/STATE.yaml.template (расширен files/tests/acceptance/commit/sessions R1), core/CLAUDE.md.template (расширенная таблица структуры документов) | — | — |
-| 2026-04-15 | mcp-infrastructure (Task 2) | TBD | core/templates/.mcp.json.template, adapters/python-fastapi/adapter.yaml (+mcp_servers 4 сервера), adapters/kotlin-android/adapter.yaml (+mcp_servers {}), adapters/csharp-avalonia/adapter.yaml (+mcp_servers {}), core/templates/STACK.md.template (убрана мёртвая ссылка TOOLS.md) | — | — |
-| 2026-04-15 | commands-regression-fix (Task 15 — R7-R12 + R3-R4) | TBD | core/commands/spec.md (409→≥460 строк с универсализацией), core/commands/review.md (34→≥230 с Adversarial Tester + E2E Integration), core/commands/next-task.md (≥135 с E2E VERIFY шаг 6), core/commands/done.md (Two-Phase + гибридный CHANGELOG), core/commands/research.md (+REFERENCES контракт), core/commands/status.md, core/commands/auto.md, core/commands/e2e-gate.md (создан) | — | — |
-| 2026-04-15 | aria-triage (Task 4) | TBD | core/commands/aria-triage.md (создан, режимы --accept/--decline/--discuss) | — | — |
-| 2026-04-15 | aria-release-notify (Task 10 FIX) | TBD | core/commands/aria-release.md (ШАГ 6 удалён, ШАГ 7 читает FORKS.md) | — | — |
-| 2026-04-15 | aria-init (Task 1) | TBD | core/commands/aria-init.md (создан, 14 шагов с SPEC интерактивно + .gitignore с запретами + валидация R6) | — | — |
-| 2026-04-15 | roadmap-populate (Task 3) | TBD | core/commands/roadmap-sync.md (создан) | — | — |
-| 2026-04-15 | aria-init/aria-sync доработка (post-Phase 1) | TBD | core/commands/aria-init.md (+селективное копирование fork-level/upstream-only команд, +валидация), core/commands/aria-sync.md (+расширения), core/protocols/fork_sync_playbook.md (+доработки) | — | — |
-| 2026-04-16 | Phase 2 аудит БЛОК 1+2 | 3709b24 | core/commands/auto.md (38→156 строк: +/review, +E2E Verify, +инфра-проверка, +Quality Gate, +e2e-gate триггер, +лимит попыток), core/commands/aria-triage.md (+P-001 конфликты gh pr diff, +P-002 PR body валидация, +P-003 merge order, +P-004 Repo валидация, +P-005/P-006 --discuss множественные T-ID, +P-014 amendment detection), core/commands/aria-release.md (+WARN >50% без Repo), FORKS.md (+Repo для форков) | — | — |
-| 2026-04-16 | Phase 2 аудит БЛОК 4 | 51fe7e2 | core/protocols/command_contracts.md (новый — контракт минимальной функциональности команд), core/protocols/fork_sync_playbook.md (+раскрытие плейсхолдеров R11, +контракт custom P-003, +атрибуция P-009/P-015, +метаданные P-013), core/commands/aria-sync.md (+declined cache P-012, +метаданные contribute-back P-013), core/commands/aria-docs-audit.md (+проверка 7 контракт команд), docs/research/docker-mcp-investigation.md (R8) | — | — |
-| 2026-04-16 | Phase 2 fixup: битые плейсхолдеры + validate_spec_e2e | TBD | scripts/validate_spec_e2e.sh (проверки 11-13 переведены на $E2E_SECTION), core/templates/project_config.yaml.template (+infrastructure.check_command/start_command, +commands.typecheck/dev_server), core/protocols/fork_sync_playbook.md (+маппинг INFRA_CHECK/START_COMMAND), core/commands/aria-init.md (+infrastructure в подстановку) | — | — |
+- Complete P0 implementation developed on top of 1.5.4: one-repository collaboration with
+  `main`, `dev`, `work/<github-username>`, and `aria-control`; local Coordinator; durable GitHub
+  Issue queue and outbox; team, backlog, activity, PR, CI, merge, restart, and replay protection.
+- Runtime, package metadata, installer identity, GitHub user agent, migration target, and project
+  compatibility tables updated to 1.5.5. Existing 1.5.4 project metadata remains readable and can
+  be upgraded through the normal 1.5 migration path.
+- Autonomous Windows x64 packaging is produced separately under the distribution `releases/1.5.5`
+  directory with bundled Python, MinGit, dependencies, framework, commands, instructions, and
+  SHA-256 manifests.
 
-### Adapters
-| дата | task | SHA | файлы | тесты | атрибуция |
-|------|------|-----|-------|-------|-----------|
-| 2026-04-15 | mcp_servers декларация | TBD | adapters/python-fastapi/adapter.yaml, adapters/kotlin-android/adapter.yaml, adapters/csharp-avalonia/adapter.yaml | — | — |
+### Verification
 
-### Docs
-| дата | task | SHA | файлы | тесты | атрибуция |
-|------|------|-----|-------|-------|-----------|
-| 2026-04-15 | living-doc-rule (Task 11) | TBD | core/CLAUDE.md.template (+5 правил), docs/policies/DOCUMENTATION_LIFECYCLE.md (+запрет ручн. редактирования, +исключения), core/commands/aria-docs-audit.md (+6 секций), core/commands/aria-sync.md (+контракт SYS_CHANGELOG), docs/research/living-docs-audit.md | — | — |
-| 2026-04-15 | aria-stack-md (Task 9) | TBD | docs/STACK.md (12 секций для upstream ARIA) | — | — |
-| 2026-04-15 | spec-md-upstream (Task 8) | TBD | docs/SPEC.md (9 секций для upstream ARIA) | — | — |
-| 2026-04-15 | triage-md (Task 5) | TBD | TRIAGE.md | — | — |
-| 2026-04-15 | forks-md (Task 6) | TBD | FORKS.md (3 форка начальных) | — | — |
-| 2026-04-15 | github-infrastructure (Task 7) | TBD | .github/PULL_REQUEST_TEMPLATE.md, .github/labels.yaml (12 labels) | — | — |
-| 2026-04-15 | contributions-md-delete (Task 12) | TBD | CONTRIBUTIONS.md (УДАЛЁН), CHANGELOG.md (гибридный формат + v3.0 миграция), docs/policies/CHANGELOG_POLICY.md (переписана), docs/policies/DOCUMENTATION_LIFECYCLE.md (обновлён) | — | — |
-| 2026-04-15 | readme-upstream (Task 14) | TBD | README.md (внешняя витрина, 7+ секций) | — | — |
-| 2026-04-15 | roadmap-populate (Task 3) | TBD | ROADMAP.md (наполнен 16 задачами Phase 1 + прогресс) | — | — |
+- Version-focused migration, registry, and collaborative-control regression: 15/15 passed.
+- Full source regression under a clean 1.5.5 distribution identity: 454/454 passed in 419.514
+  seconds, zero failures or skips.
+- Live multi-account GitHub acceptance is intentionally not claimed by this portable test build.
 
-### Hooks
-| дата | task | SHA | файлы | тесты | атрибуция |
-|------|------|-----|-------|-------|-----------|
-| 2026-04-15 | commands-regression-fix (Task 15) validate scripts | TBD | scripts/validate_spec_e2e.sh (13 проверок E2E Testing Plan), scripts/validate_e2e_results.sh (6 проверок YAML результатов) | — | — |
-| 2026-04-16 | Phase 2 аудит БЛОК 3 validate scripts | TBD | scripts/validate_e2e_results.sh (6→10 проверок: +screenshot >5KB, +console log критические, +verdict соответствие, +count match), scripts/validate_spec_e2e.sh (TCM поиск: grep по файлу → regex внутри E2E секции, устранены ложные срабатывания) | — | — |
+## 1.5.4 P0 working copy — 2026-09-02
 
-### Fix
-| дата | task | SHA | файлы | тесты | атрибуция |
-|------|------|-----|-------|-------|-----------|
-| 2026-04-15 | forks-cleanup-migration (Task 16, завершён) | — | Форки: очистка ARIA-реликтов из code-repo, .gitignore (+запрет .claude/ CLAUDE.md .dev/ STATE.yaml PATHS.yaml SYS_CHANGELOG.md). Механизмы защиты: /aria-init ШАГ 11, /aria-docs-audit секция 3, /auto шаг 0.2 | — | — |
+### Added
 
-### Breaking
-| дата | task | SHA | файлы | тесты | атрибуция |
-|------|------|-----|-------|-------|-----------|
-| 2026-04-15 | CONTRIBUTIONS.md удалён (Task 12) | TBD | CONTRIBUTIONS.md | — | — |
+- Safe existing-repository connect plan/apply flow with exact GitHub admin read-back,
+  preservation of the existing default branch and code, and recoverable creation of only
+  missing `main`, `dev`, `aria-control` state.
+- One-repository branch contract `main`, `dev`, `work/<github-username>`, `aria-control`;
+  project join derives the working branch from authenticated GitHub identity.
+- GitHub collaborator invitation/revocation with immutable identity read-back and durable
+  `invited`, `active`, `revoked` team lifecycle.
+- Authored free ideas, owner-only triage, dependency-aware task recommendations, automatic
+  `work/<github-username>` claim, and durable file-scope leases.
+- Coordinator-only task completion after same-repository PR source-branch read-back, strict
+  required checks, merge reachability, and complete changed-path enforcement against scope.
+- Immutable GitHub Issue queue audit through GraphQL `lastEditedAt`, per-request membership
+  refresh, durable poison-request rejection, and a common offline outbox for backlog/activity.
+- Pre-merge `ARIA integration` check on the exact signed PR head, including immutable assignee,
+  source branch, rename source paths, segment-safe globs, file scope, and Coordinator App pinning.
+- Canonical `in_review` backlog transition and recoverable multi-document closure across backlog,
+  activity, accepted state, history, remote control commit, and coordinator restart.
+- Existing 1.5.4 access/backlog compatibility, explicit legacy-item triage, exact branch inventory
+  in connect plans, and attachment of an already-valid `aria-control` worktree.
+- Persist-before-mutation control journals, exact crash recovery after activity completion, and
+  phase-aware invite/revoke reconciliation without repeating external GitHub mutations.
+- Immutable `base...head` PR comparison with final head read-back, identical verified author and
+  committer identity, automatic App-pinned `dev` protection, and protected policy read-back.
+- Owner-confirmed legacy control upgrade plus task `recover`, `amend_scope`, and `cancel` actions;
+  explicit `pending_sync`, terminal request rejection, and claim-time project preflight.
+- Fail-closed handling of saturated GitHub compare responses, preservation of existing `dev`
+  checks during App pinning, and enforced P0-before-P1/P2/P3 claim ordering per assignee.
+- Target-bound legacy policy recovery, safe restart of journal-owned partial clones, validated and
+  hashed team operation journals, and invitation-permission read-back.
+- Outbox delivery receipts remain pending until the Issue reaches a terminal coordinator result;
+  duplicate lookup includes closed Issues, and transient coordinator failures remain retryable.
+- Coordinator processing includes user-closed but authority-unapplied Issues; local outbox entries
+  clear only after control-document proof, reopened terminal requests fail closed, and durable local
+  rejection receipts prevent poison Issues from starving later queue entries.
+- Connect/join clone recovery uses nonce-named, ownership-marked staging directories and never
+  removes an unowned destination; claim preflight requires the App-pinned repository contract.
+- Immediate-predecessor connect/join journals remain recoverable without weakening nonce-owned
+  staging; schema-1 transactions created before the staging extension are migrated in place.
+- Queue acceptance and rejection use immutable Coordinator App receipts bound to request id,
+  Issue body SHA-256 and control commit/outcome; local control edits alone cannot clear outbox.
+- Terminal receipts are consulted before any reapplication; acceptance commits must be ancestors
+  of the verified control head and contain the exact request proof at that historical commit.
+- Owner create/connect provisions and reads back `aria:request`, `aria:backlog`, and
+  `aria:activity` labels; new Issues require exact labels while predecessor Issues remain readable.
+- Receipt discovery ignores prefix-spoofing comments from users or other Apps and validates
+  immutable receipt shape only for the configured Coordinator App.
+- Terminal outbox entries move atomically to a durable receipt store so later events continue;
+  queue pagination has no 1000-Issue lifetime cutoff and processed history does not spend the
+  current run's action limit.
+- Queue acceptance proof is bound to the complete canonical request, expected revision,
+  submitted timestamp and immutable GitHub user id; reuse of an existing request id with a
+  different operation, payload or actor is rejected instead of being accepted by id alone.
+- Activity receipts persist a full request fingerprint through active and archived ledgers;
+  predecessor receipts remain readable and can finish only an existing App-authored acceptance
+  whose historical activity entry matches content, timestamp, revision and immutable actor.
+- Non-applied activity outcomes, including late events, receive a durable no-apply receipt unless
+  the exact request already has complete control proof; the Issue compatibility API keeps labels
+  optional for predecessor callers.
+- If the Coordinator stops after its App acceptance comment but before Issue close, restart reads
+  the comment as a non-terminal intent, verifies historical proof, and completes the close without
+  invoking the request handler again; developer outboxes still wait for `closed/completed`.
 
----
+### Verification
 
-## v3.0 (2026-04-14) — Первичное ядро (from forks)
+- Repository/team/join focused regression: 84/84 tests, zero failures.
+- Task/integration focused regression: 85/85 tests; coordinator/recovery: 42/42 tests.
+- Full source regression after request-proof and acceptance-intent crash hardening: 454/454 tests
+  in 383.614 seconds,
+  zero failures or skips.
+- Isolated source framework doctor: `ok=true`, version `1.5.4`, 94 engine files,
+  SHA-256 `66443107d222387c073e97fb92269f9f8852fd72422f9dd4d4513e5c4e1a9583`.
+- No live GitHub mutation was performed; isolated private-repository E2E remains required.
 
-> Миграция атрибуции из удалённого CONTRIBUTIONS.md в гибридный CHANGELOG (Task 12).
-> Исходные 4 записи в CONTRIBUTIONS.md переписаны в табличные строки ниже.
+## 1.5.4 — 2026-08-24
 
-### Core
-| дата | task | SHA | файлы | тесты | атрибуция |
-|------|------|-----|-------|-------|-----------|
-| 2026-04-14 | initial_core | — | core/* (протоколы, команды, документооборот, /auto, /done, /spec, /next-task, /review, /research, /status, Two-Phase Commit, STATE, spec/{task}, ADR, read_docs, E2E Gate, Adversarial review, Progressive testing) | 672+ | обкатка в форках (37+ задач, 4 фазы) |
+### Added
 
-### Adapters
-| дата | task | SHA | файлы | тесты | атрибуция |
-|------|------|-----|-------|-------|-----------|
-| 2026-04-14 | python-fastapi adapter | — | adapters/python-fastapi/* (Docker postgres+redis, Python антипаттерны type:ignore/noqa/**kwargs, React антипаттерны useEffect-deps, E2E Gate через MCP browser) | — | — |
-| 2026-04-14 | kotlin-android adapter | — | adapters/kotlin-android/* (Kotlin антипаттерны !!/GlobalScope, hardware hw-diag/safety-review/field-test, safety: watchdog/emergency-stop/GPS-loss, compatibility review) | — | from SOLAR AUTOPILOT |
-| 2026-04-14 | csharp-avalonia adapter | — | adapters/csharp-avalonia/* (C# антипаттерны #pragma-warning-disable, мультиплатформенный commit format Desktop/iOS/Android) | — | — |
+- Collaborative GitHub control plane with a protected `aria-control` branch, immutable provider
+  identities, team projection, authored backlog, activity snapshots, merge/CI state publication,
+  recoverable coordinator writes, project create/join, and offline-project migration.
+- GitHub device login with Windows Credential Manager, separate Coordinator App credentials,
+  Issues request queue, recurring Windows coordinator task, and Codex natural-language skill.
+- Offline Windows schema 3 installer candidate with an official hash-bound side-by-side Python
+  3.12.10 runtime, ownership-safe reinstall/uninstall, and no secret-bearing installer state.
 
----
+### Verification
 
-## v3.3.1 (2026-04-14) — Docs audit fix + cross-platform
+- Full source regression: 392/392 tests.
+- Continuous release check for source commit `f2a27e3`: 91/91 checks, zero failures/skips.
+- Two wheel builds are byte-identical at SHA-256
+  `f87f6d64e5b9d69bb1635ad4e6d1a9a4aca5cc092bf8e7e6a9989885e4162ba8`.
+- Windows PowerShell 5.1 schema 3 validation, clean install, doctor/CLI/skill read-back,
+  idempotent reinstall, and uninstall passed with project runtime preserved.
 
-### Fix
-| дата | task | SHA | файлы | тесты | атрибуция |
-|------|------|-----|-------|-------|-----------|
-| 2026-04-14 | docs audit fix + cross-platform | bcdfce3 | README.md, ARIA_GUIDE.md (8→11 команд, убрана examples/, добавлен commit-msg), COMMIT_POLICY.md (валидация: commit-msg + pre-commit), scripts/hooks/commit-msg (Co-Authored-By soft warning), scripts/hooks/install.sh (cross-platform case), scripts/hooks/tests/run_all.sh, CLAUDE.md.template (v3.1→v3.3), project_config.yaml.template (aria.version 3.1→3.3), adapters/csharp-avalonia/hooks/pre-commit (создан) | — | — |
-| 2026-04-14 | .gitignore project-docs/ | 707ded4 | .gitignore | — | — |
+### Release boundary
 
----
+- The tracked schema 3 bundle is a locally accepted pre-provider candidate. Release GitHub App
+  identifiers, exact final manifest read-back, live private GitHub testing with four identities,
+  and publication remain pending.
 
-## v3.3 [2026-04-14] — Documentation lifecycle + Mechanical policy enforcement
+### Fixed
 
-### Docs
-- **`docs/ARIA_GUIDE.md`** — полное руководство по ARIA как проекту. Жизненный цикл форка, структура репо, версионирование, обзор команд.
-- **`docs/policies/CHANGELOG_POLICY.md`** — обязательная политика: что и как попадает в CHANGELOG. Формат, категории, версионирование.
-- **`docs/policies/COMMIT_POLICY.md`** — формат коммитов для upstream и форков. Scopes, Two-Phase, обязательные правила.
-- **`docs/policies/DOCUMENTATION_LIFECYCLE.md`** — матрица "событие → какой документ обновить". Принцип живого документа (семантический + механический потребитель).
+- GitHub ruleset read/create denials now produce a distinct fail-closed
+  `PROVIDER_CAPABILITY_UNAVAILABLE` blocker with an actionable plan/permission explanation;
+  ARIA never treats a private repository without enforced coordinator-only protection as ready.
+- Added an executable project governance contract with one declared status authority,
+  mandatory run-to-backlog binding for governed builds and a fail-closed write preflight.
+- Project diagnostics now classify dirty product changes without an active build run as
+  `RECOVERY_REQUIRED` instead of allowing a later run to legitimize an unknown baseline.
+- Accepted `DEC-*` rows in an explicitly configured Markdown decision registry produce a
+  deterministic read-only reconciliation plan; applying selected actions records signed
+  backlog evidence and keeps optimistic revision checks.
+- Bound completed/blocked runs reconcile their existing backlog item instead of creating a
+  duplicate run-derived task. Retrying a closed managed lifecycle retries backlog recovery.
+- Existing 1.5 projects can add the governance contract through the recoverable
+  `upgrade-1-5` path; arbitrary same-user filesystem writes remain outside ARIA's trust
+  boundary and are not misrepresented as technically intercepted.
 
-### Core
-- **`core/CLAUDE.md.template`** обновлён — обязательные ссылки на все три политики в секции "Обязательные политики ARIA". Семантическая валидация через AI-агента теперь гарантирована.
-- **`core/protocols/fork_sync_playbook.md`** — исправлен критичный баг: `docs/aria_sync_log.md` заменён на `SYS_CHANGELOG.md` (соответствует de-facto стандарту форков).
-- **`core/commands/aria-sync.md`** — обновлён, то же исправление + секция "Установка hooks в форк".
+## 1.5.3 — 2026-08-04
 
-### Commands
-- **`core/commands/aria-release.md`** — команда релиза новой версии ARIA. Автогенерация черновика CHANGELOG из коммитов с scope-группировкой. Создание тега и push.
-- **`core/commands/aria-docs-audit.md`** — аудит соответствия ARIA_GUIDE реальному содержимому репо. Проверка hooks vs политики ("не стала ли политика мёртвой").
-- **`core/commands/adr-new.md`** — команда создания ADR. Шаблон, нумерация, интеграция со SPEC.md.
+### Fixed
 
-### Hooks
-- **`scripts/hooks/pre-commit`** — механическая валидация CHANGELOG_POLICY. Блокирует коммит если изменены core/adapters/policies/hooks без обновления CHANGELOG.md.
-- **`scripts/hooks/commit-msg`** — валидация формата первой строки коммита согласно COMMIT_POLICY. Scopes: CORE, PROTOCOL, ADAPTER, POLICY, DOCS, HOOKS, FIX, META, CONTRIB.
-- **`scripts/hooks/pre-push`** — финальная проверка: при push в upstream CHANGELOG должен быть обновлён в push range.
-- **`scripts/hooks/install.sh`** — установщик через `core.hooksPath=scripts/hooks`. Hooks живут в репе, не в `.git/hooks/`.
-- **`scripts/hooks/README.md`** — документация hooks, правила обхода (`--no-verify`).
-- **`scripts/hooks/tests/run_all.sh`** — smoke-тесты: синтаксис bash + соответствие hooks политикам (если политика не покрыта hook'ом — тест падает).
+- Repository review no longer excludes product source and test packages merely because a
+  path segment is named `coverage`. Review inventory now relies on Git's tracked and
+  non-ignored boundary, so generated coverage output remains excludable through `.gitignore`.
+- Framework integrity hashing no longer drops an operational ARIA package named `coverage`.
+- Installed-wheel provenance accepts standard LF/CRLF checkout differences while still
+  requiring the exact same Python file inventory and normalized source content.
+- Regression coverage proves nested Java/Python product packages are captured, Git-ignored
+  coverage reports stay outside the inventory, and operational framework packages affect the
+  engine hash.
 
-### Adapters
-- **`adapters/kotlin-android/hooks/pre-commit`** — SOFT warnings для Kotlin-форков. STACK без CHANGELOG, SPEC без ADR, Two-Phase нарушение, libs.versions.toml изменения.
-- **`adapters/python-fastapi/hooks/pre-commit`** — SOFT warnings для Python-форков. Миграции без spec, pyproject без STACK.
+### Verification
 
-### Замкнутый контур актуализации документации
+- Focused regression: 7 passed.
+- Full source regression after the version cut: 186 passed, zero failures.
+- End-to-end release acceptance: 85/85 checks, zero failures or skips.
 
-Теперь работают **два независимых потребителя** для каждой политики:
-1. **Семантический** — AI-агент читает CLAUDE.md, который ссылается на политику
-2. **Механический** — git hook применяет те же правила на уровне команды
+## 1.5.2 — 2026-07-30
 
-Если один из потребителей не работает — документ мёртв. Это проверяется командой `/aria-docs-audit`.
+### Added
 
----
+- Windows `setup.ps1` performs a fail-closed, offline installation from the immutable
+  1.5.2 release wheelhouse, creates a separate local venv and runtime, verifies hashes,
+  dependencies and import provenance, and finishes with framework doctor.
+- `releases/1.5.2` now contains the accepted ARIA wheel, all Windows CPython 3.12
+  dependency wheels and a SHA-256 manifest, so installation does not depend on `.aria-work`.
 
-## v3.2 [2026-04-14] — Stack documentation + Fork sync protocol
+### Fixed
 
-### Core
-- **`core/templates/STACK.md.template`** — шаблон документа технологического стека.
-  Принцип: **decisions, не versions**. Версии живут в native package manager проекта.
-  Разделы: платформа, языки, SDK, категории библиотек, протоколы, референсы, инструменты, MCP, окружение, правила, явно исключённое.
+- New-project instructions now use the executable order `init → identity enroll →
+  access bootstrap → doctor → feature` and explicitly define separate framework, code,
+  docs and runtime roots; `workspaces` has no special meaning.
+- Init is described and reported as a deterministic Git inventory bootstrap that requires
+  a subsequent Codex semantic code review.
+- Backlog authorization derives the actual registered Git branch at the Python API boundary,
+  rejects spoofed branch context and restores the exact preimage after both read errors and
+  semantic read-back mismatches.
+- Backlog claim fails closed until every declared dependency is `done`; manual completion
+  accepts only a verified completed local project run or the full current Git HEAD from a
+  clean registered checkout. Automatic run reconciliation reads `result.json` and verifies
+  its SHA instead of trusting `manifest.status` alone.
+- ARIA 1.4 → 1.5 migration uses a recoverable preimage journal for every partial-write window.
+- Release acceptance requires a clean committed candidate, preserves hashed raw logs, runs
+  real focused/integration/E2E/adversarial behavior, a two-device claim collision,
+  version/branch rejection, evidence completion, performance regression and active cutover.
+- GitHub Actions adapters pin the current ARIA package version instead of a stale literal.
 
-- **`core/protocols/fork_sync_playbook.md`** — формализованный протокол синхронизации форка с upstream.
-  Фазы: инвентаризация → сравнение → отчёт → применение.
-  Статусы артефактов: NEW / UPSTREAM_AHEAD / FORK_AHEAD / BOTH_DIVERGED / SYNCED / INTENTIONALLY_CUSTOM.
-  Поддерживает три направления: pull (upstream → fork), contribute back (fork → upstream), upstream-wide propagation.
+### Verification
 
-### Commands
-- **`/aria-sync`** переписана под новый playbook. Добавлены режимы `--dry-run` и `--contribute {тема}`.
-  Команда теперь ссылается на playbook как на источник истины протокола — это позволяет эволюционировать логику sync без правки команды.
+- The final acceptance result must be regenerated from the clean 1.5.2 candidate; evidence
+  produced for 1.5.1 is not reused.
 
-### Документационная философия
-- Введено чёткое разделение документов:
-  - `STACK.md` — что и почему (decisions)
-  - `SPEC.md` — функциональная архитектура (модули, data flow)
-  - `REFERENCES.md` — конкретные алгоритмы из референсных проектов
-  - `ADR/*.md` — архитектурные решения
-  - `gradle/libs.versions.toml` (или аналог) — версии (authoritative)
-  - `CLAUDE.md` — правила работы агента, коммиты, запреты
+## 1.5.1 — 2026-07-30
 
----
+### Fixed
 
-## v3.1 [2026-04-14] — Standalone Release
+- Backlog commands now authorize against the verified branch of the registered Git
+  checkout instead of passing `branch=None`.
+- `show`, `assign`, `claim`, `block`, `done`, `sync` and `audit` accept branch context;
+  a requested branch that differs from the checkout fails closed.
+- Automatic backlog synchronization during run start, verification and closure preserves
+  the same version and Git-branch access scope.
+- Clean-wheel acceptance now exercises a real `feature/*` contributor claim instead of
+  hiding the defect behind a wildcard branch grant.
 
-ARIA выделена в самостоятельный проект.
+## 1.5.0 — 2026-07-29
 
-### Core
-- Универсальный CLAUDE.md.template с {{плейсхолдерами}}
-- 7 команд (/auto, /done, /spec, /next-task, /review, /research, /status) в универсальной форме
-- Шаблоны: PATHS.yaml, project_config.yaml, STATE.yaml
-- Протокол решения проблем (3-3-3)
-- Запрещённые паттерны (универсальные + стек-специфичные)
-- Критические антипаттерны проектирования
+### Added
 
-### Adapters
-- python-fastapi (обкатан в форках, 37+ задач опыта)
-- kotlin-android (из SOLAR AUTOPILOT)
-- csharp-avalonia (обкатан в форках)
+- Per-device Ed25519 identities with Windows DPAPI protection and public enrollment requests.
+- Signed `ACCESS.yaml` policies with project permissions and version/branch scopes.
+- Signed `BACKLOG.yaml` with ownership, optimistic concurrency, provenance and evidence closure.
+- Automatic backlog discovery and reconciliation for runs, review findings, failures and blockers.
+- Team schema v2 and recoverable, idempotent 1.4 → 1.5 migration.
+- Public identity, access and backlog CLI command families.
 
-### Infrastructure
-- Upstream repo: https://github.com/Yura1980Yura/ARIA
-- CONTRIBUTIONS.md — реестр контрибуций из проектов
-- /aria-sync — команда синхронизации с upstream
+### Security
 
----
+- Protected CLI actions fail closed for unknown, revoked, out-of-scope or tampered identities.
+- Access mutations roll back policy state when audit persistence fails.
+- Engine hashing prunes virtual environments, dependency trees, caches and VCS data.
 
-## v3.0 [2025–2026] — Обкатка в форках
+## 1.4.0 — 2026-07-28
 
-Обкатка в форках (37+ задач, 4 фазы).
-- E2E Gate через MCP Playwright
-- Progressive testing (3 уровня)
-- Adversarial review (атакер)
-- read_docs механизм в спеках
-- Two-Phase Commit
+- Added portable Evidence Package v2 with Ed25519 signatures and offline verification.
+- Added trust policies with trust levels, key allowlists, actor roles, assurance classes,
+  approvals, expiry and revocation.
+- Added isolated `ci prepare`, `ci execute`, separate `ci attest` and `ci import` protocol bound to job nonce,
+  source commit and immutable contracts.
+- Added actor roles, atomic task leases and optimistic project revision.
+- Added integration gate requiring fresh CI evidence for the exact source package set and
+  a signed independent review attestation and Git ancestry.
+- Added a GitHub Actions reference adapter and ARIA 1.3 Evidence Bundle local-only reader.
+
+## 1.3.0 — 2026-07-28
+
+### Added
+
+- Structured `VERIFY.yaml` contracts and safe Python, Node, Rust and Go adapters.
+- `aria verify` with timeouts, output bounds, secret redaction and deterministic resume.
+- SHA-bound execution receipts and an Evidence Bundle tied to exact product Git state.
+- Requirement and acceptance links from convergence proofs to trusted executions.
+
+### Changed
+
+- New configured projects reject manually asserted verification evidence at closure.
+- `aria init` infers verification commands only from tracked manifests with real test configuration.
+- Release acceptance executes the trusted verification path from the installed wheel.
+
+### Compatibility
+
+- Projects without a verification document preserve legacy evidence behavior. Open runs
+  remain engine-bound and must be restarted after a framework upgrade.
+
+### Verification
+
+- 114 tests passed.
+- 33/33 release-acceptance checks passed with zero failures or skipped checks.
+- Two independent final reviews returned CLEAN for release-blocking P1/P2 findings.
+
+## 1.2.0 — 2026-07-22
+
+### Added
+
+- Managed feature lifecycle: `specify → clarify → plan → tasks → implement → converge`.
+- Feature Contract locking, verified amendments, recovery journal and SHA chain.
+- Exact requirement coverage between requirements, acceptance scenarios, plan and tasks.
+- GitHub Spec Kit import/export for `spec.md`, `plan.md` and `tasks.md`.
+- Semantic `aria init` for existing Git repositories.
+- Reproducible `aria release-check` with clean-wheel, installed-CLI and disposable-project checks.
+
+### Changed
+
+- Core lock and close operations now enforce managed lifecycle phases.
+- Release checks verify installed provenance, route policies and isolated scratch boundaries.
+
+### Compatibility
+
+- Unfinished ARIA 1.0 and 1.1 run manifests remain readable without shape drift.
+
+### Verification
+
+- 100 tests passed.
+- 28/28 release-acceptance checks passed with zero failures or skipped checks.
+- Two independent final reviews returned CLEAN.

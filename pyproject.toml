@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aria-codex"
+version = "1.5.5"
+description = "LLM-first project engineering and assurance for Codex and Claude Code"
+requires-python = ">=3.12"
+dependencies = [
+  "PyYAML>=6.0,<7",
+  "cryptography>=45.0,<47",
+]
+
+[project.scripts]
+aria = "aria.cli:main"
+aria-github-askpass = "aria.github_askpass:main"
+aria-claude-hook = "aria.claude_hook:main"
+
+[tool.setuptools.packages.find]
+include = ["aria*"]
+
+[tool.setuptools.package-data]
+aria = [
+  "codex_skills/aria-project/SKILL.md",
+  "claude_skills/aria-project/SKILL.md",
+]

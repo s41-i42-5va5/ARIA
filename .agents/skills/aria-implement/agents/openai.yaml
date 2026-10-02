@@ -1,0 +1,7 @@
+interface:
+  display_name: "ARIA Implement"
+  short_description: "Разработка по двухконтурному процессу ARIA"
+  default_prompt: "Use $aria-implement to execute the next task through both quality contours."
+
+policy:
+  allow_implicit_invocation: true

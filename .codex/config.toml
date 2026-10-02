@@ -1,0 +1,4 @@
+# Проектный слой Codex. Загружается только для trusted project.
+# Маркер документирует границу проекта без создания Git-репозитория.
+project_root_markers = [".aria-root"]
+project_doc_max_bytes = 32768
